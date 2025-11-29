@@ -494,10 +494,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ClipRect(
                       child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade200.withOpacity(0.3),
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Colors.grey.shade200.withOpacity(0.4),
+                                Colors.grey.shade200.withOpacity(0.2),
+                              ],
                             ),
+                          ),
                           child: Column(
                             children: [
                                       // Status Message
@@ -626,9 +634,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     opacity: (isAvailable || isAlreadyMoved) ? 1.0 : 0.5,
                                                       child: Container(
                                                         decoration: BoxDecoration(
-                                                          color: ide.isSelected
-                                                              ? const Color(0xFFFFE4E1)
-                                                              : Colors.white,
+                                                          color: Colors.white,
                                                           borderRadius: BorderRadius.circular(3),
                                                         ),
                                                       child: Row(
