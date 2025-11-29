@@ -1,105 +1,218 @@
-# IDE Cache Mover - Flutter Desktop Application
+# NXIVE Optimizer
 
-A modern GUI application built with Flutter to move IDE cache folders from C: drive to D: drive using Windows junction links.
+A professional desktop application built with Flutter that optimizes your development environment by relocating IDE cache folders from your primary SSD to a secondary drive. This helps reduce SSD wear, improve system performance, and prevent potential drive failures.
+
+![NXIVE Optimizer](assets/screenshots/1.png)
+
+## Overview
+
+NXIVE Optimizer addresses critical SSD performance issues faced by developers using multiple AI-powered IDEs. By moving cache folders to a secondary drive using Windows junction points, the application ensures your IDEs continue working normally while significantly reducing the load on your primary SSD.
+
+## Key Benefits
+
+- **Reduce SSD Wear**: Minimize constant write operations on your primary drive
+- **Improve Performance**: Eliminate system lag caused by multiple IDE cache operations
+- **Prevent Crashes**: Reduce the risk of SSD failures due to excessive writes
+- **Free Up Space**: Reclaim 5-15+ GB on your C: drive
+- **Zero Downtime**: Applications continue working seamlessly after optimization
 
 ## Features
 
-- ✅ Modern Material Design 3 UI
-- ✅ Multiple IDE support (Cursor, VS Code, Claude, Windsurf, Discord, GitHub Desktop, Figma, OBS Studio)
-- ✅ Checkbox selection interface
-- ✅ Select All / Deselect All functionality
-- ✅ Real-time status updates
-- ✅ Progress indicators
-- ✅ Junction detection (prevents duplicate moves)
-- ✅ Confirmation dialog before moving
-- ✅ Native Windows file operations (robocopy, mklink)
+- Modern, clean user interface with Material Design 3
+- Automatic IDE detection from AppData\Roaming
+- Support for 24+ AI-powered IDEs and development tools
+- Real-time status tracking (optimized/unoptimized)
+- Custom destination path selection
+- Junction point detection to prevent duplicate operations
+- Safe restore functionality to revert changes
+- Progress indicators and status updates
+- Confirmation dialogs for critical operations
+
+## Screenshots
+
+![Welcome Screen](assets/screenshots/1.png)
+
+![Scan Screen](assets/screenshots/2.png)
+
+![Home Screen](assets/screenshots/3.png)
+
+![Optimization Process](assets/screenshots/4.png)
+
+## Supported IDEs
+
+The application supports the following development environments:
+
+**AI-Powered Editors:**
+- Cursor
+- Claude
+- Windsurf
+- Zed
+- Trae
+- Wrap
+- Qader
+- Replit
+- Project IDX
+- Continue
+- Aider
+
+**Traditional IDEs:**
+- Visual Studio Code
+- Visual Studio Code Insiders
+- IntelliJ IDEA
+- PyCharm
+- WebStorm
+- Eclipse Theia
+
+**AI Coding Assistants:**
+- GitHub Copilot
+- Tabnine
+- Codeium
+- Codeium Chat
 
 ## Prerequisites
 
+- Windows 10 or Windows 11
 - Flutter SDK (latest stable version)
-- Visual Studio with "Desktop development with C++" workload
-- Windows 10/11
+- Visual Studio 2019 or later with "Desktop development with C++" workload
+- Administrator privileges (for file operations)
 
-## Setup
+## Installation
+
+### Building from Source
 
 1. **Enable Windows desktop support:**
    ```bash
    flutter config --enable-windows-desktop
    ```
 
-2. **Install dependencies:**
+2. **Clone the repository:**
    ```bash
+   git clone <repository-url>
    cd nxive-ide-optimizer
+   ```
+
+3. **Install dependencies:**
+   ```bash
    flutter pub get
    ```
 
-## Running the Application
+4. **Run the application:**
+   ```bash
+   flutter run -d windows
+   ```
 
-```bash
-flutter run -d windows
-```
-
-## Building for Release
+### Building Release Executable
 
 ```bash
 flutter build windows --release
 ```
 
-The executable will be in `build\windows\x64\runner\Release\NXIVE_Optimizer.exe`
+The executable will be located at:
+```
+build\windows\x64\runner\Release\NXIVE_Optimizer.exe
+```
 
 ## How It Works
 
-1. The app scans `%APPDATA%` for installed IDE folders
-2. Checks if folders are already moved (junction detection)
-3. Allows you to select which IDEs to move
-4. Uses `robocopy` to move files from `C:\Users\...\AppData\Roaming\` to `D:\AppData\Roaming\`
-5. Creates Windows junction links so applications continue to work normally
-6. All operations are performed through native Windows platform channels
+1. **Welcome Screen**: Introduces the application and explains the benefits
+2. **Scan Screen**: Automatically detects installed IDEs from `%APPDATA%\Roaming`
+3. **Home Screen**: Displays detected IDEs with their optimization status
+4. **Destination Selection**: Choose any drive and folder for cache relocation
+5. **Optimization**: Uses Windows `robocopy` to move files and `mklink` to create junction points
+6. **Verification**: Automatically detects junction points to show optimization status
 
-## Supported IDEs
+### Technical Implementation
 
-- Cursor
-- VS Code
-- VS Code Insiders
-- Claude
-- Windsurf
-- Discord
-- GitHub Desktop
-- Figma
-- OBS Studio
+- Uses Windows junction points (symlinks) to maintain application compatibility
+- Native C++ platform channels for secure file operations
+- Automatic `AppData\Roaming` folder structure creation in destination
+- Junction detection prevents duplicate moves
+- Safe restore process that moves files back and removes junctions
 
-## Important Notes
+## Usage
 
-⚠️ **Always close all selected applications before moving their folders!**
+1. **Launch the application** - The welcome screen will appear first
+2. **Review the introduction** - Understand the benefits and critical issues addressed
+3. **Scan for IDEs** - The app automatically detects installed development tools
+4. **Select destination** - Choose your preferred drive and folder for cache storage
+5. **Select IDEs** - Choose which IDEs you want to optimize
+6. **Optimize** - Click "Move Selected" and confirm the operation
+7. **Verify** - Check the status indicators to confirm successful optimization
 
-The app will show a warning dialog before proceeding with the move operation.
+### Important Notes
 
-## Technical Details
-
-- **Framework:** Flutter 3.35.7+
-- **Language:** Dart 3.9.2+
-- **Platform Channels:** Windows native C++ code for file operations
-- **File Operations:** Uses Windows `robocopy` and `mklink` commands
+- **Close all selected applications** before moving their cache folders
+- The application requires administrator privileges for file operations
+- Junction points ensure your IDEs continue working normally after optimization
+- You can restore any IDE to its original location using the "Restore Selected" button
 
 ## Project Structure
 
 ```
 nxive-ide-optimizer/
 ├── lib/
-│   ├── main.dart                 # App entry point
+│   ├── main.dart                    # Application entry point
 │   ├── models/
-│   │   └── ide_model.dart        # IDE data model
+│   │   └── ide_model.dart          # IDE data model
 │   ├── screens/
-│   │   └── home_screen.dart      # Main UI screen
+│   │   ├── welcome_screen.dart     # Welcome/intro screen
+│   │   ├── scan_screen.dart        # IDE detection screen
+│   │   └── home_screen.dart        # Main application screen
 │   └── services/
 │       ├── file_operation_service.dart  # File operations service
-│       └── ide_service.dart            # IDE management service
+│       ├── ide_service.dart            # IDE management service
+│       ├── path_service.dart          # Path persistence service
+│       └── window_service.dart        # Window control service
 └── windows/
     └── runner/
-        ├── file_ops_handler.h     # Platform channel header
-        └── file_ops_handler.cpp   # Platform channel implementation
+        ├── file_ops_handler.h       # Platform channel header
+        ├── file_ops_handler.cpp     # Platform channel implementation
+        └── resources/
+            └── app_icon.ico         # Application icon
 ```
+
+## Technical Details
+
+- **Framework**: Flutter 3.35.7+
+- **Language**: Dart 3.9.2+
+- **UI Framework**: Material Design 3
+- **Font**: Inter (via Google Fonts)
+- **Platform Channels**: Windows native C++ code for file operations
+- **File Operations**: Windows `robocopy` and `mklink` commands
+- **State Management**: Flutter StatefulWidget
+- **Persistence**: SharedPreferences for user settings
+
+## Safety Features
+
+- Junction point detection prevents duplicate operations
+- Confirmation dialogs for all critical operations
+- Safe restore functionality to revert changes
+- Automatic folder structure creation
+- Error handling and user feedback
+
+## Troubleshooting
+
+**Issue**: Application cannot detect IDEs
+- **Solution**: Ensure IDEs are installed in the default `%APPDATA%\Roaming` location
+
+**Issue**: Move operation fails
+- **Solution**: Close all instances of the selected IDEs and try again with administrator privileges
+
+**Issue**: Junction point already exists
+- **Solution**: Use the "Restore Selected" feature first, then move again
 
 ## License
 
 This project is for personal use.
+
+## Contributing
+
+Contributions are welcome. Please ensure your code follows the existing style and includes appropriate error handling.
+
+## Support
+
+For issues, questions, or contributions, please refer to the project repository.
+
+---
+
+**NXIVE Optimizer** - Protect your SSD, optimize your workflow.
