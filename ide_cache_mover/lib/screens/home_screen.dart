@@ -890,7 +890,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       alignment: Alignment.center,
                       child: const Icon(
-                        Icons.code,
+                        Icons.public,
                         size: 18,
                         color: Colors.black87,
                       ),
