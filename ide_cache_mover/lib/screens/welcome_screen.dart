@@ -126,108 +126,117 @@ class WelcomeScreen extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  // Problem Section Header
+                                  // Side-by-side Sections
                                   Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFFDC143C).withOpacity(0.1),
-                                          borderRadius: BorderRadius.circular(3),
-                                        ),
-                                        child: const Icon(
-                                          Icons.warning_amber_rounded,
-                                          color: Color(0xFFDC143C),
-                                          size: 20,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      const Expanded(
-                                        child: Text(
-                                          'Critical Issues You\'re Facing',
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w700,
-                                            color: Color(0xFFDC143C),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 12),
-                                  // Fixed 3-column Grid
-                                  GridView.count(
-                                    shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    crossAxisCount: 3,
-                                    crossAxisSpacing: 8,
-                                    mainAxisSpacing: 8,
-                                    childAspectRatio: 3.2,
-                                    children: [
-                                      _buildProblemItem(
-                                        'SSD Lag & PC Lag',
-                                        'Constant cache writes cause system slowdowns',
-                                      ),
-                                      _buildProblemItem(
-                                        'Performance Reduction',
-                                        'Disk bottlenecks when using multiple IDEs',
-                                      ),
-                                      _buildProblemItem(
-                                        'SSD Crashes After Few Days',
-                                        'Excessive writes damage SSD controller',
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 24),
-                                  // Introduction Section
-                                  Container(
-                                    padding: const EdgeInsets.all(16),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.3),
-                                      borderRadius: BorderRadius.circular(3),
-                                      border: Border.all(
-                                        color: Colors.grey.shade300.withOpacity(0.3),
-                                        width: 1,
-                                      ),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
+                                      // Left: Critical Issues (Red)
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Container(
-                                              padding: const EdgeInsets.all(6),
-                                              decoration: BoxDecoration(
-                                                color: const Color(0xFF4CAF50).withOpacity(0.15),
-                                                borderRadius: BorderRadius.circular(3),
-                                              ),
-                                              child: const Icon(
-                                                Icons.check_circle,
-                                                color: Color(0xFF4CAF50),
-                                                size: 16,
-                                              ),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  padding: const EdgeInsets.all(8),
+                                                  decoration: BoxDecoration(
+                                                    color: const Color(0xFFDC143C).withOpacity(0.1),
+                                                    borderRadius: BorderRadius.circular(3),
+                                                  ),
+                                                  child: const Icon(
+                                                    Icons.warning_amber_rounded,
+                                                    color: Color(0xFFDC143C),
+                                                    size: 18,
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 10),
+                                                const Expanded(
+                                                  child: Text(
+                                                    'Critical Issues',
+                                                    style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w700,
+                                                      color: Color(0xFFDC143C),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            const SizedBox(width: 10),
-                                            const Text(
-                                              'What You\'ll Get',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w700,
-                                                color: Colors.black87,
-                                              ),
+                                            const SizedBox(height: 12),
+                                            _buildProblemItem(
+                                              'SSD Lag & PC Lag',
+                                              'Constant cache writes cause system slowdowns',
+                                            ),
+                                            const SizedBox(height: 8),
+                                            _buildProblemItem(
+                                              'Performance Reduction',
+                                              'Disk bottlenecks when using multiple IDEs',
+                                            ),
+                                            const SizedBox(height: 8),
+                                            _buildProblemItem(
+                                              'SSD Crashes After Few Days',
+                                              'Excessive writes damage SSD controller',
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(height: 12),
-                                        _buildBenefitItem('Eliminate SSD lag and PC freezing'),
-                                        const SizedBox(height: 8),
-                                        _buildBenefitItem('Prevent SSD crashes and drive failures'),
-                                        const SizedBox(height: 8),
-                                        _buildBenefitItem('Improve system performance significantly'),
-                                        const SizedBox(height: 8),
-                                        _buildBenefitItem('Extend your SSD lifespan'),
-                                      ],
-                                    ),
+                                      ),
+                                      const SizedBox(width: 16),
+                                      // Right: What You'll Get (Green)
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  padding: const EdgeInsets.all(8),
+                                                  decoration: BoxDecoration(
+                                                    color: const Color(0xFF4CAF50).withOpacity(0.15),
+                                                    borderRadius: BorderRadius.circular(3),
+                                                  ),
+                                                  child: const Icon(
+                                                    Icons.check_circle,
+                                                    color: Color(0xFF4CAF50),
+                                                    size: 18,
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 10),
+                                                const Expanded(
+                                                  child: Text(
+                                                    'What You\'ll Get',
+                                                    style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w700,
+                                                      color: Colors.black87,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 12),
+                                            _buildBenefitItem(
+                                              'Eliminate SSD lag and PC freezing',
+                                              'No more system slowdowns or freezing',
+                                            ),
+                                            const SizedBox(height: 8),
+                                            _buildBenefitItem(
+                                              'Prevent SSD crashes and drive failures',
+                                              'Protect your SSD from excessive writes',
+                                            ),
+                                            const SizedBox(height: 8),
+                                            _buildBenefitItem(
+                                              'Improve system performance significantly',
+                                              'Eliminate disk bottlenecks completely',
+                                            ),
+                                            const SizedBox(height: 8),
+                                            _buildBenefitItem(
+                                              'Extend your SSD lifespan',
+                                              'Reduce wear and extend drive longevity',
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -274,7 +283,7 @@ class WelcomeScreen extends StatelessWidget {
 
   Widget _buildProblemItem(String title, String description) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
         color: const Color(0xFFFFE4E1).withOpacity(0.5),
         borderRadius: BorderRadius.circular(3),
@@ -287,43 +296,37 @@ class WelcomeScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 2),
+            padding: const EdgeInsets.only(top: 3),
             child: Container(
-              width: 4,
-              height: 4,
+              width: 5,
+              height: 5,
               decoration: const BoxDecoration(
                 color: Color(0xFFDC143C),
                 shape: BoxShape.circle,
               ),
             ),
           ),
-          const SizedBox(width: 6),
+          const SizedBox(width: 8),
           Expanded(
-            child: Column(
+              child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   title,
                   style: const TextStyle(
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: FontWeight.w700,
                     color: Color(0xFFDC143C),
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 2),
-                Flexible(
-                  child: Text(
-                    description,
-                    style: TextStyle(
-                      fontSize: 8,
-                      color: Colors.grey.shade700,
-                      height: 1.1,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                const SizedBox(height: 4),
+                Text(
+                  description,
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Colors.grey.shade700,
+                    height: 1.3,
                   ),
                 ),
               ],
@@ -334,29 +337,59 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBenefitItem(String text) {
-    return Row(
-      children: [
-        Container(
-          width: 4,
-          height: 4,
-          decoration: const BoxDecoration(
-            color: Color(0xFF4CAF50),
-            shape: BoxShape.circle,
-          ),
+  Widget _buildBenefitItem(String title, String description) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF1F8F4).withOpacity(0.5),
+        borderRadius: BorderRadius.circular(3),
+        border: Border.all(
+          color: const Color(0xFF4CAF50).withOpacity(0.2),
+          width: 1,
         ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey.shade800,
-              height: 1.4,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 3),
+            child: Container(
+              width: 5,
+              height: 5,
+              decoration: const BoxDecoration(
+                color: Color(0xFF4CAF50),
+                shape: BoxShape.circle,
+              ),
             ),
           ),
-        ),
-      ],
+          const SizedBox(width: 8),
+          Expanded(
+              child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF2E7D32),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  description,
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Colors.grey.shade700,
+                    height: 1.3,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
