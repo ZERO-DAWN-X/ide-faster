@@ -105,7 +105,7 @@ class WelcomeScreen extends StatelessWidget {
                                   ),
                                   SizedBox(height: 4),
                                   Text(
-                                    'IDE Faster & SSD Protected',
+                                    'NXIVE Optimizer - SSD Protected',
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,

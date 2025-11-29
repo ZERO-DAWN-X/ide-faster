@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "NXIVE" "\0"
-            VALUE "FileDescription", "IDE Faster - SSD Optimizer" "\0"
+            VALUE "FileDescription", "NXIVE Optimizer - SSD Optimizer" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "IDE Faster" "\0"
+            VALUE "InternalName", "NXIVE Optimizer" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2025 NXIVE. All rights reserved." "\0"
-            VALUE "OriginalFilename", "IDE Faster.exe" "\0"
-            VALUE "ProductName", "IDE Faster" "\0"
+            VALUE "OriginalFilename", "NXIVE Optimizer.exe" "\0"
+            VALUE "ProductName", "NXIVE Optimizer" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
