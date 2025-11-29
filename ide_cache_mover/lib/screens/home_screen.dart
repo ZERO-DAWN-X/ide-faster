@@ -11,7 +11,9 @@ import '../services/window_service.dart';
 import '../services/path_service.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final List<IdeModel> detectedIdes;
+  
+  const HomeScreen({super.key, required this.detectedIdes});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -19,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<IdeModel> _availableIdes = [];
-  bool _isLoading = true;
+  bool _isLoading = false;
   bool _isMoving = false;
   String _statusMessage = '';
   bool _showSuccess = false;
@@ -65,11 +67,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _loadAvailableIdes() async {
     setState(() {
       _isLoading = true;
-      _statusMessage = 'Checking available IDEs...';
+      _statusMessage = 'Loading IDEs...';
     });
 
     try {
-      final ides = await IdeService.checkAvailableIdes();
+      // Use the detected IDEs from scan screen and refresh their status
+      final ides = await IdeService.checkAvailableIdes(ides: widget.detectedIdes);
       setState(() {
         _availableIdes = ides;
         _isLoading = false;

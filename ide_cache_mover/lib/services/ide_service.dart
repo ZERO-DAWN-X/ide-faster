@@ -136,18 +136,53 @@ class IdeService {
     ];
   }
 
+  /// Scan AppData\Roaming and return only detected IDEs
+  static Future<List<IdeModel>> scanForInstalledIdes() async {
+    final allPossibleIdes = getAvailableIdes();
+    final appDataPath = FileOperationService.getAppDataPath();
+    final detectedIdes = <IdeModel>[];
+
+    if (appDataPath.isEmpty) {
+      return detectedIdes; // Return empty if can't access AppData
+    }
+
+    // Scan for each IDE
+    for (final ide in allPossibleIdes) {
+      final folderPath = '$appDataPath\\${ide.appDataFolderName}';
+      final exists = await FileOperationService.folderExists(folderPath);
+
+      if (exists) {
+        final isJunction = await FileOperationService.isJunction(folderPath);
+        final detectedIde = IdeModel(
+          id: ide.id,
+          name: ide.name,
+          appDataFolderName: ide.appDataFolderName,
+          destinationFolderName: ide.destinationFolderName,
+          status: isJunction ? IdeStatus.alreadyMoved : IdeStatus.available,
+        );
+        detectedIdes.add(detectedIde);
+      }
+    }
+
+    return detectedIdes; // Return only detected IDEs
+  }
+
   /// Check all IDEs and their status (returns all AI-powered IDEs)
-  static Future<List<IdeModel>> checkAvailableIdes() async {
-    final ides = getAvailableIdes();
+  /// This is kept for backward compatibility but now only works with provided list
+  static Future<List<IdeModel>> checkAvailableIdes({List<IdeModel>? ides}) async {
+    final idesToCheck = ides ?? getAvailableIdes();
     final appDataPath = FileOperationService.getAppDataPath();
 
     if (appDataPath.isEmpty) {
       // Return all IDEs with notInstalled status if we can't get AppData path
-      return ides;
+      for (final ide in idesToCheck) {
+        ide.status = IdeStatus.notInstalled;
+      }
+      return idesToCheck;
     }
 
     // Check status for each IDE
-    for (final ide in ides) {
+    for (final ide in idesToCheck) {
       final folderPath = '$appDataPath\\${ide.appDataFolderName}';
       final exists = await FileOperationService.folderExists(folderPath);
 
@@ -159,7 +194,7 @@ class IdeService {
       }
     }
 
-    return ides; // Return all IDEs, not just available ones
+    return idesToCheck;
   }
 
   /// Move selected IDEs
