@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/scan_screen.dart';
+import 'screens/welcome_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -78,7 +78,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const ScanScreen(),
+      home: const WelcomeScreen(),
     );
   }
 }
