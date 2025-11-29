@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/ide_model.dart';
 import '../services/ide_service.dart';
 import '../services/window_service.dart';
@@ -513,22 +514,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Container(
                           width: double.infinity,
                           margin: const EdgeInsets.fromLTRB(16, 56, 16, 8),
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                          decoration: BoxDecoration(
-                            color: (_showSuccess
-                                    ? const Color(0xFFFFE4E1)
-                                    : _isMoving
-                                        ? const Color(0xFFFFF0F5)
-                                        : Colors.white).withOpacity(0.9),
-                            borderRadius: BorderRadius.circular(3),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.05),
-                                blurRadius: 8,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
-                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                           child: Row(
                             children: [
                               if (_isMoving)
@@ -559,9 +545,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Text(
                                   _statusMessage,
                                   style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
                                     color: Colors.black87,
+                                    letterSpacing: 0.2,
                                   ),
                                 ),
                               ),
@@ -876,30 +863,64 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-          // Custom Window Control - Close Button
+          // Custom Window Controls - GitHub and Close Buttons
           Positioned(
             top: 8,
             right: 8,
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: WindowService.close,
-                borderRadius: BorderRadius.circular(3),
-                child: Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.85),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // GitHub Button
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () async {
+                      final url = Uri.parse('https://github.com/ZERO-DAWN-X');
+                      if (await canLaunchUrl(url)) {
+                        await launchUrl(url, mode: LaunchMode.externalApplication);
+                      }
+                    },
                     borderRadius: BorderRadius.circular(3),
-                  ),
-                  alignment: Alignment.center,
-                  child: const Icon(
-                    Icons.close,
-                    size: 18,
-                    color: Color(0xFFDC143C),
+                    child: Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.85),
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                      alignment: Alignment.center,
+                      child: const Icon(
+                        Icons.code,
+                        size: 18,
+                        color: Colors.black87,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                const SizedBox(width: 8),
+                // Close Button
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: WindowService.close,
+                    borderRadius: BorderRadius.circular(3),
+                    child: Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.85),
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                      alignment: Alignment.center,
+                      child: const Icon(
+                        Icons.close,
+                        size: 18,
+                        color: Color(0xFFDC143C),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
