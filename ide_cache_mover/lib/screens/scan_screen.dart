@@ -276,7 +276,7 @@ class _ScanScreenState extends State<ScanScreen> {
                             ),
                           ),
 
-                        // Detected IDEs List
+                        // Detected IDEs Grid
                         if (!_isScanning)
                           Expanded(
                             child: _detectedIdes.isEmpty
@@ -285,16 +285,16 @@ class _ScanScreenState extends State<ScanScreen> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Container(
-                                        padding: const EdgeInsets.all(16),
-                                        decoration: const BoxDecoration(
-                                          color: Color(0xFFFFE4E1),
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: const Icon(
-                                          Icons.search_off,
-                                          size: 48,
-                                          color: Color(0xFFDC143C),
-                                        ),
+                                          padding: const EdgeInsets.all(16),
+                                          decoration: const BoxDecoration(
+                                            color: Color(0xFFFFE4E1),
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: const Icon(
+                                            Icons.search_off,
+                                            size: 48,
+                                            color: Color(0xFFDC143C),
+                                          ),
                                         ),
                                         const SizedBox(height: 16),
                                         const Text(
@@ -315,64 +315,82 @@ class _ScanScreenState extends State<ScanScreen> {
                                       ],
                                     ),
                                   )
-                                : ListView.builder(
-                                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                                : GridView.builder(
+                                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3,
+                                      crossAxisSpacing: 10,
+                                      mainAxisSpacing: 10,
+                                      childAspectRatio: 2.5,
+                                    ),
                                     itemCount: _detectedIdes.length,
                                     itemBuilder: (context, index) {
                                       final ide = _detectedIdes[index];
                                       final isMoved = ide.status == IdeStatus.alreadyMoved;
                                       
                                       return Container(
-                                        margin: const EdgeInsets.only(bottom: 12),
-                                        padding: const EdgeInsets.all(16),
+                                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                                         decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.9),
+                                          color: isMoved
+                                              ? const Color(0xFF4CAF50).withOpacity(0.1)
+                                              : const Color(0xFFDC143C).withOpacity(0.1),
                                           borderRadius: BorderRadius.circular(3),
-                                          border: Border.all(
-                                            color: isMoved
-                                                ? const Color(0xFF4CAF50).withOpacity(0.3)
-                                                : const Color(0xFFDC143C).withOpacity(0.2),
-                                            width: 1,
-                                          ),
                                         ),
                                         child: Row(
+                                          mainAxisSize: MainAxisSize.min,
                                           children: [
                                             _getIdeIcon(ide.id),
-                                            const SizedBox(width: 16),
+                                            const SizedBox(width: 8),
                                             Expanded(
                                               child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   Text(
                                                     ide.name,
                                                     style: const TextStyle(
-                                                      fontSize: 14,
+                                                      fontSize: 11,
                                                       fontWeight: FontWeight.w600,
                                                       color: Colors.black87,
                                                     ),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
                                                   ),
-                                                  const SizedBox(height: 4),
-                                                  Text(
-                                                    isMoved
-                                                        ? 'Already optimized'
-                                                        : 'Ready to optimize',
-                                                    style: TextStyle(
-                                                      fontSize: 11,
-                                                      color: isMoved
-                                                          ? const Color(0xFF4CAF50)
-                                                          : const Color(0xFFDC143C),
-                                                      fontWeight: FontWeight.w500,
-                                                    ),
+                                                  const SizedBox(height: 2),
+                                                  Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    children: [
+                                                      Container(
+                                                        width: 4,
+                                                        height: 4,
+                                                        decoration: BoxDecoration(
+                                                          color: isMoved
+                                                              ? const Color(0xFF4CAF50)
+                                                              : const Color(0xFFDC143C),
+                                                          shape: BoxShape.circle,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(width: 4),
+                                                      Flexible(
+                                                        child: Text(
+                                                          isMoved ? 'Optimized' : 'Ready',
+                                                          style: TextStyle(
+                                                            fontSize: 9,
+                                                            color: isMoved
+                                                                ? const Color(0xFF4CAF50)
+                                                                : const Color(0xFFDC143C),
+                                                            fontWeight: FontWeight.w500,
+                                                          ),
+                                                          maxLines: 1,
+                                                          overflow: TextOverflow.ellipsis,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ],
                                               ),
                                             ),
-                                            if (isMoved)
-                                              const Icon(
-                                                Icons.check_circle,
-                                                color: Color(0xFF4CAF50),
-                                                size: 20,
-                                              ),
                                           ],
                                         ),
                                       );
