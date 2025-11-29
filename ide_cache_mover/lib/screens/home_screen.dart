@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final selectedIdes = _availableIdes.where((ide) => ide.isSelected && ide.status == IdeStatus.alreadyMoved).toList();
 
     if (selectedIdes.isEmpty) {
-      _showMessage('Please select at least one moved IDE to revert', isError: true);
+      _showMessage('Please select at least one moved IDE to restore', isError: true);
       return;
     }
 
@@ -107,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         backgroundColor: Colors.white,
         title: const Text(
-          'Confirm Revert',
+          'Confirm Restore',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.black,
@@ -118,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'You are about to revert the following IDEs:',
+              'You are about to restore the following IDEs:',
               style: TextStyle(color: Colors.black87),
             ),
             const SizedBox(height: 12),
@@ -186,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
               backgroundColor: const Color(0xFFDC143C),
               foregroundColor: Colors.white,
             ),
-            child: const Text('Revert'),
+            child: const Text('Restore'),
           ),
         ],
       ),
@@ -196,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     setState(() {
       _isMoving = true;
-      _statusMessage = 'Reverting IDEs...';
+      _statusMessage = 'Restoring IDEs...';
       _showSuccess = false;
     });
 
@@ -204,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
       final result = await IdeService.revertSelectedIdes(selectedIdes);
 
       if (result['success'] == true) {
-        _showMessage('IDEs reverted successfully!', isError: false);
+        _showMessage('IDEs restored successfully!', isError: false);
         // Deselect all after successful revert
         _deselectAll();
         // Reload to update status
@@ -216,10 +216,10 @@ class _HomeScreenState extends State<HomeScreen> {
             .where((e) => (e.value as Map)['success'] != true)
             .map((e) => '${e.key}: ${(e.value as Map)['message']}')
             .join(', ');
-        _showMessage('Some IDEs failed to revert: $errors', isError: true);
+        _showMessage('Some IDEs failed to restore: $errors', isError: true);
       }
     } catch (e) {
-      _showMessage('Error reverting IDEs: $e', isError: true);
+      _showMessage('Error restoring IDEs: $e', isError: true);
     } finally {
       setState(() {
         _isMoving = false;
@@ -843,8 +843,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         : const Icon(Icons.undo, size: 18),
                                     label: Text(
                                       _isMoving
-                                          ? 'Reverting...'
-                                          : 'Revert Selected ($_selectedMovedCount)',
+                                          ? 'Restoring...'
+                                          : 'Restore Selected ($_selectedMovedCount)',
                                       style: const TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.bold,
@@ -853,10 +853,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: _selectedMovedCount == 0
                                           ? Colors.grey.shade400
-                                          : const Color(0xFFFF69B4),
+                                          : Colors.black,
                                       foregroundColor: Colors.white,
                                       elevation: _selectedMovedCount == 0 ? 0 : 2,
-                                      shadowColor: const Color(0xFFFF69B4).withOpacity(0.3),
+                                      shadowColor: Colors.black.withOpacity(0.3),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(3),
                                       ),
