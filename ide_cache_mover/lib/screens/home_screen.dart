@@ -494,18 +494,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ClipRect(
                       child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.7),
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                Colors.white.withOpacity(0.8),
-                                Colors.white.withOpacity(0.6),
-                              ],
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
                             ),
-                          ),
                           child: Column(
                             children: [
                                       // Status Message
@@ -632,13 +624,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   borderRadius: BorderRadius.circular(3),
                                                   child: Opacity(
                                                     opacity: (isAvailable || isAlreadyMoved) ? 1.0 : 0.5,
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        color: (ide.isSelected
-                                                                ? const Color(0xFFFFE4E1)
-                                                                : Colors.white).withOpacity(0.85),
-                                                        borderRadius: BorderRadius.circular(3),
-                                                      ),
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                          color: ide.isSelected
+                                                              ? const Color(0xFFFFE4E1)
+                                                              : Colors.white,
+                                                          borderRadius: BorderRadius.circular(3),
+                                                        ),
                                                       child: Row(
                                                         mainAxisSize: MainAxisSize.min,
                                                       children: [
