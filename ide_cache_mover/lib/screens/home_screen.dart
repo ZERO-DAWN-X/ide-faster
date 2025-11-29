@@ -456,71 +456,83 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ],
                                         ),
                                       )
-                                    : GridView.builder(
-                                        padding: const EdgeInsets.all(16),
-                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                          crossAxisSpacing: 12,
-                                          mainAxisSpacing: 12,
-                                          childAspectRatio: 2.2,
-                                        ),
-                                        itemCount: _availableIdes.length,
-                                        itemBuilder: (context, index) {
-                                          final ide = _availableIdes[index];
-                                          return Material(
-                                            color: Colors.transparent,
-                                            child: InkWell(
-                                              onTap: _isMoving
-                                                  ? null
-                                                  : () => _toggleSelection(index),
-                                              borderRadius: BorderRadius.circular(3),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: (ide.isSelected
-                                                          ? const Color(0xFFFFE4E1)
-                                                          : Colors.white).withOpacity(0.85),
+                                    : LayoutBuilder(
+                                        builder: (context, constraints) {
+                                          // Responsive grid: 3 columns for wider screens, 2 for medium, 1 for narrow
+                                          int crossAxisCount = 3;
+                                          if (constraints.maxWidth < 600) {
+                                            crossAxisCount = 2;
+                                          }
+                                          if (constraints.maxWidth < 400) {
+                                            crossAxisCount = 1;
+                                          }
+                                          
+                                          return GridView.builder(
+                                            padding: const EdgeInsets.all(12),
+                                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: crossAxisCount,
+                                              crossAxisSpacing: 8,
+                                              mainAxisSpacing: 8,
+                                              childAspectRatio: 3.5,
+                                            ),
+                                            itemCount: _availableIdes.length,
+                                            itemBuilder: (context, index) {
+                                              final ide = _availableIdes[index];
+                                              return Material(
+                                                color: Colors.transparent,
+                                                child: InkWell(
+                                                  onTap: _isMoving
+                                                      ? null
+                                                      : () => _toggleSelection(index),
                                                   borderRadius: BorderRadius.circular(3),
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    // Checkbox
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 12),
-                                                      child: Checkbox(
-                                                        value: ide.isSelected,
-                                                        onChanged: _isMoving
-                                                            ? null
-                                                            : (_) => _toggleSelection(index),
-                                                      ),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color: (ide.isSelected
+                                                              ? const Color(0xFFFFE4E1)
+                                                              : Colors.white).withOpacity(0.85),
+                                                      borderRadius: BorderRadius.circular(3),
                                                     ),
-                                                    // Icon
-                                                    Container(
-                                                      padding: const EdgeInsets.all(10),
-                                                      decoration: BoxDecoration(
-                                                        color: ide.isSelected
-                                                            ? const Color(0xFFFF69B4).withOpacity(0.15)
-                                                            : Colors.grey.shade50.withOpacity(0.5),
-                                                        borderRadius: BorderRadius.circular(3),
-                                                      ),
-                                                      child: Icon(
-                                                        _getIdeIcon(ide.id),
-                                                        color: ide.isSelected
-                                                            ? const Color(0xFFDC143C)
-                                                            : Colors.black87,
-                                                        size: 24,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(width: 12),
-                                                    // Name
-                                                    Expanded(
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text(
+                                                    child: Row(
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      children: [
+                                                        const SizedBox(width: 8),
+                                                        // Selected indicator
+                                                        if (ide.isSelected)
+                                                          Container(
+                                                            width: 4,
+                                                            height: 4,
+                                                            decoration: BoxDecoration(
+                                                              color: const Color(0xFFDC143C),
+                                                              shape: BoxShape.circle,
+                                                            ),
+                                                          )
+                                                        else
+                                                          const SizedBox(width: 4),
+                                                        const SizedBox(width: 8),
+                                                        // Icon
+                                                        Container(
+                                                          padding: const EdgeInsets.all(6),
+                                                          decoration: BoxDecoration(
+                                                            color: ide.isSelected
+                                                                ? const Color(0xFFFF69B4).withOpacity(0.15)
+                                                                : Colors.grey.shade50.withOpacity(0.5),
+                                                            borderRadius: BorderRadius.circular(3),
+                                                          ),
+                                                          child: Icon(
+                                                            _getIdeIcon(ide.id),
+                                                            color: ide.isSelected
+                                                                ? const Color(0xFFDC143C)
+                                                                : Colors.black87,
+                                                            size: 16,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(width: 8),
+                                                        // Name
+                                                        Expanded(
+                                                          child: Text(
                                                             ide.name,
                                                             style: TextStyle(
-                                                              fontSize: 14,
+                                                              fontSize: 12,
                                                               fontWeight: FontWeight.w600,
                                                               color: ide.isSelected
                                                                   ? const Color(0xFFDC143C)
@@ -529,23 +541,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             maxLines: 1,
                                                             overflow: TextOverflow.ellipsis,
                                                           ),
-                                                          const SizedBox(height: 2),
-                                                          Text(
-                                                            ide.appDataFolderName,
-                                                            style: TextStyle(
-                                                              fontSize: 11,
-                                                              color: Colors.grey.shade600,
-                                                            ),
-                                                            maxLines: 1,
-                                                            overflow: TextOverflow.ellipsis,
-                                                          ),
-                                                        ],
-                                                      ),
+                                                        ),
+                                                        const SizedBox(width: 8),
+                                                      ],
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
+                                              );
+                                            },
                                           );
                                         },
                                       ),
