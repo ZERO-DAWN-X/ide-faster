@@ -91,5 +91,25 @@ class IdeService {
       'results': results,
     };
   }
+
+  /// Revert selected IDEs (move back to original location)
+  static Future<Map<String, dynamic>> revertSelectedIdes(List<IdeModel> selectedIdes) async {
+    final appDataPath = FileOperationService.getAppDataPath();
+    final results = <String, Map<String, dynamic>>{};
+
+    for (final ide in selectedIdes) {
+      final result = await FileOperationService.revertIdeFolder(
+        ide,
+        appDataPath,
+        destinationBasePath,
+      );
+      results[ide.id] = result;
+    }
+
+    return {
+      'success': results.values.every((r) => r['success'] == true),
+      'results': results,
+    };
+  }
 }
 

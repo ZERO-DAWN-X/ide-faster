@@ -53,8 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void _toggleSelection(int index) {
     setState(() {
       final ide = _availableIdes[index];
-      // Only allow selection if IDE is available (not already moved or not installed)
-      if (ide.status == IdeStatus.available) {
+      // Allow selection if IDE is available or already moved (for revert)
+      if (ide.status == IdeStatus.available || ide.status == IdeStatus.alreadyMoved) {
         ide.isSelected = !ide.isSelected;
       }
     });
@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _selectAll() {
     setState(() {
       for (var ide in _availableIdes) {
-        if (ide.status == IdeStatus.available) {
+        if (ide.status == IdeStatus.available || ide.status == IdeStatus.alreadyMoved) {
           ide.isSelected = true;
         }
       }
@@ -80,6 +80,151 @@ class _HomeScreenState extends State<HomeScreen> {
 
   int get _selectedCount {
     return _availableIdes.where((ide) => ide.isSelected).length;
+  }
+
+  int get _selectedMovedCount {
+    return _availableIdes.where((ide) => ide.isSelected && ide.status == IdeStatus.alreadyMoved).length;
+  }
+
+  int get _selectedAvailableCount {
+    return _availableIdes.where((ide) => ide.isSelected && ide.status == IdeStatus.available).length;
+  }
+
+  Future<void> _revertSelectedIdes() async {
+    final selectedIdes = _availableIdes.where((ide) => ide.isSelected && ide.status == IdeStatus.alreadyMoved).toList();
+
+    if (selectedIdes.isEmpty) {
+      _showMessage('Please select at least one moved IDE to revert', isError: true);
+      return;
+    }
+
+    // Show confirmation dialog
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(3),
+        ),
+        backgroundColor: Colors.white,
+        title: const Text(
+          'Confirm Revert',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'You are about to revert the following IDEs:',
+              style: TextStyle(color: Colors.black87),
+            ),
+            const SizedBox(height: 12),
+            ...selectedIdes.map((ide) => Padding(
+                  padding: const EdgeInsets.only(bottom: 6),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 6,
+                        height: 6,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFDC143C),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        ide.name,
+                        style: const TextStyle(
+                          color: Colors.black87,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFE4E1),
+                borderRadius: BorderRadius.circular(3),
+              ),
+              child: const Row(
+                children: [
+                  Icon(
+                    Icons.warning_amber_rounded,
+                    color: Color(0xFFDC143C),
+                    size: 20,
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'WARNING: Please close ALL selected applications first!',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFFDC143C),
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFDC143C),
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('Revert'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true) return;
+
+    setState(() {
+      _isMoving = true;
+      _statusMessage = 'Reverting IDEs...';
+      _showSuccess = false;
+    });
+
+    try {
+      final result = await IdeService.revertSelectedIdes(selectedIdes);
+
+      if (result['success'] == true) {
+        _showMessage('IDEs reverted successfully!', isError: false);
+        // Deselect all after successful revert
+        _deselectAll();
+        // Reload to update status
+        await Future.delayed(const Duration(seconds: 1));
+        await _loadAvailableIdes();
+      } else {
+        final results = result['results'] as Map<String, dynamic>;
+        final errors = results.entries
+            .where((e) => (e.value as Map)['success'] != true)
+            .map((e) => '${e.key}: ${(e.value as Map)['message']}')
+            .join(', ');
+        _showMessage('Some IDEs failed to revert: $errors', isError: true);
+      }
+    } catch (e) {
+      _showMessage('Error reverting IDEs: $e', isError: true);
+    } finally {
+      setState(() {
+        _isMoving = false;
+      });
+    }
   }
 
   Future<void> _moveSelectedIdes() async {
@@ -481,12 +626,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                               return Material(
                                                 color: Colors.transparent,
                                                 child: InkWell(
-                                                  onTap: _isMoving || !isAvailable
+                                                  onTap: _isMoving || (!isAvailable && !isAlreadyMoved)
                                                       ? null
                                                       : () => _toggleSelection(index),
                                                   borderRadius: BorderRadius.circular(3),
                                                   child: Opacity(
-                                                    opacity: isAvailable ? 1.0 : 0.5,
+                                                    opacity: (isAvailable || isAlreadyMoved) ? 1.0 : 0.5,
                                                     child: Container(
                                                       decoration: BoxDecoration(
                                                         color: (ide.isSelected
@@ -633,47 +778,92 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ],
                               ),
                               const SizedBox(height: 8),
-                              SizedBox(
-                                width: double.infinity,
-                                height: 40,
-                                child: ElevatedButton.icon(
-                                  onPressed: _isMoving || _selectedCount == 0
-                                      ? null
-                                      : _moveSelectedIdes,
-                                  icon: _isMoving
-                                      ? const SizedBox(
-                                          width: 16,
-                                          height: 16,
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 2,
-                                            valueColor: AlwaysStoppedAnimation<Color>(
-                                              Colors.white,
+                              if (_selectedAvailableCount > 0)
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: 40,
+                                  child: ElevatedButton.icon(
+                                    onPressed: _isMoving || _selectedAvailableCount == 0
+                                        ? null
+                                        : _moveSelectedIdes,
+                                    icon: _isMoving
+                                        ? const SizedBox(
+                                            width: 16,
+                                            height: 16,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 2,
+                                              valueColor: AlwaysStoppedAnimation<Color>(
+                                                Colors.white,
+                                              ),
                                             ),
-                                          ),
-                                        )
-                                      : const Icon(Icons.move_down, size: 18),
-                                  label: Text(
-                                    _isMoving
-                                        ? 'Moving...'
-                                        : 'Move Selected ($_selectedCount)',
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold,
+                                          )
+                                        : const Icon(Icons.move_down, size: 18),
+                                    label: Text(
+                                      _isMoving
+                                          ? 'Moving...'
+                                          : 'Move Selected ($_selectedAvailableCount)',
+                                      style: const TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: _selectedCount == 0
-                                        ? Colors.grey.shade400
-                                        : const Color(0xFFDC143C),
-                                    foregroundColor: Colors.white,
-                                    elevation: _selectedCount == 0 ? 0 : 2,
-                                    shadowColor: const Color(0xFFDC143C).withOpacity(0.3),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(3),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: _selectedAvailableCount == 0
+                                          ? Colors.grey.shade400
+                                          : const Color(0xFFDC143C),
+                                      foregroundColor: Colors.white,
+                                      elevation: _selectedAvailableCount == 0 ? 0 : 2,
+                                      shadowColor: const Color(0xFFDC143C).withOpacity(0.3),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(3),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
+                              if (_selectedMovedCount > 0) ...[
+                                if (_selectedAvailableCount > 0) const SizedBox(height: 8),
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: 40,
+                                  child: ElevatedButton.icon(
+                                    onPressed: _isMoving || _selectedMovedCount == 0
+                                        ? null
+                                        : _revertSelectedIdes,
+                                    icon: _isMoving
+                                        ? const SizedBox(
+                                            width: 16,
+                                            height: 16,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 2,
+                                              valueColor: AlwaysStoppedAnimation<Color>(
+                                                Colors.white,
+                                              ),
+                                            ),
+                                          )
+                                        : const Icon(Icons.undo, size: 18),
+                                    label: Text(
+                                      _isMoving
+                                          ? 'Reverting...'
+                                          : 'Revert Selected ($_selectedMovedCount)',
+                                      style: const TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: _selectedMovedCount == 0
+                                          ? Colors.grey.shade400
+                                          : const Color(0xFFFF69B4),
+                                      foregroundColor: Colors.white,
+                                      elevation: _selectedMovedCount == 0 ? 0 : 2,
+                                      shadowColor: const Color(0xFFFF69B4).withOpacity(0.3),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(3),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ],
                           ),
                         ),

@@ -81,6 +81,39 @@ void FileOpsHandler::HandleMethodCall(
     response[flutter::EncodableValue("success")] = flutter::EncodableValue(success);
     response[flutter::EncodableValue("message")] = flutter::EncodableValue(errorMessage);
     result->Success(flutter::EncodableValue(response));
+  } else if (method_name == "revertIdeFolder") {
+    const auto* args = std::get_if<flutter::EncodableMap>(method_call.arguments());
+    if (!args) {
+      result->Error("InvalidArguments", "Arguments must be a map");
+      return;
+    }
+
+    auto junction_it = args->find(flutter::EncodableValue("junctionPath"));
+    auto source_it = args->find(flutter::EncodableValue("sourcePath"));
+    auto dest_it = args->find(flutter::EncodableValue("destinationPath"));
+
+    if (junction_it == args->end() || source_it == args->end() ||
+        dest_it == args->end()) {
+      result->Error("InvalidArguments", "Missing required arguments");
+      return;
+    }
+
+    const std::string* junctionPath = std::get_if<std::string>(&junction_it->second);
+    const std::string* sourcePath = std::get_if<std::string>(&source_it->second);
+    const std::string* destPath = std::get_if<std::string>(&dest_it->second);
+
+    if (!junctionPath || !sourcePath || !destPath) {
+      result->Error("InvalidArguments", "All paths must be strings");
+      return;
+    }
+
+    std::string errorMessage;
+    bool success = RevertIdeFolder(*junctionPath, *sourcePath, *destPath, errorMessage);
+
+    flutter::EncodableMap response;
+    response[flutter::EncodableValue("success")] = flutter::EncodableValue(success);
+    response[flutter::EncodableValue("message")] = flutter::EncodableValue(errorMessage);
+    result->Success(flutter::EncodableValue(response));
   } else {
     result->NotImplemented();
   }
@@ -170,6 +203,50 @@ bool FileOpsHandler::MoveIdeFolder(const std::string& sourcePath,
     errorMessage = "Failed to create junction: " + mklinkOutput;
     return false;
   }
+
+  return true;
+}
+
+bool FileOpsHandler::RevertIdeFolder(const std::string& junctionPath,
+                                      const std::string& sourcePath,
+                                      const std::string& destinationPath,
+                                      std::string& errorMessage) {
+  std::wstring wJunctionPath = StringToWString(junctionPath);
+  std::wstring wSourcePath = StringToWString(sourcePath);
+  std::wstring wDestPath = StringToWString(destinationPath);
+
+  // Check if junction exists
+  if (!IsJunction(junctionPath)) {
+    errorMessage = "Folder is not a junction";
+    return false;
+  }
+
+  // Check if source (D: drive) exists
+  DWORD sourceAttrib = GetFileAttributesW(wSourcePath.c_str());
+  if (sourceAttrib == INVALID_FILE_ATTRIBUTES ||
+      !(sourceAttrib & FILE_ATTRIBUTE_DIRECTORY)) {
+    errorMessage = "Source folder does not exist on D: drive";
+    return false;
+  }
+
+  // Remove the junction
+  if (!RemoveDirectoryW(wJunctionPath.c_str())) {
+    errorMessage = "Failed to remove junction";
+    return false;
+  }
+
+  // Use robocopy to move files back
+  std::wstring robocopyCmd = L"robocopy \"" + wSourcePath + L"\" \"" +
+                             wDestPath + L"\" /E /MOVE /NFL /NDL /NJH /NJS /R:3 /W:1";
+
+  std::string output;
+  if (!ExecuteCommand(robocopyCmd, output)) {
+    errorMessage = "Robocopy failed: " + output;
+    return false;
+  }
+
+  // Remove empty source directory from D: drive
+  RemoveDirectoryW(wSourcePath.c_str());
 
   return true;
 }

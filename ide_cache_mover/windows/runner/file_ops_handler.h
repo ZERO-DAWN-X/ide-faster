@@ -32,6 +32,12 @@ class FileOpsHandler {
                      const std::string& junctionPath,
                      std::string& errorMessage);
 
+  // Revert folder - remove junction and move back to original location
+  bool RevertIdeFolder(const std::string& junctionPath,
+                       const std::string& sourcePath,
+                       const std::string& destinationPath,
+                       std::string& errorMessage);
+
   // Helper: Convert std::string to std::wstring
   std::wstring StringToWString(const std::string& str);
 

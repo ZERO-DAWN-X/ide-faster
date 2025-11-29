@@ -50,6 +50,31 @@ class FileOperationService {
     }
   }
 
+  /// Revert IDE folder - move back from D: drive to original location
+  static Future<Map<String, dynamic>> revertIdeFolder(IdeModel ide, String appDataPath, String destinationPath) async {
+    try {
+      final result = await _channel.invokeMethod<Map<Object?, Object?>>(
+        'revertIdeFolder',
+        {
+          'junctionPath': '$appDataPath\\${ide.appDataFolderName}',
+          'sourcePath': '$destinationPath\\${ide.destinationFolderName}',
+          'destinationPath': '$appDataPath\\${ide.appDataFolderName}',
+        },
+      );
+
+      if (result != null) {
+        return {
+          'success': result['success'] as bool? ?? false,
+          'message': result['message'] as String? ?? 'Unknown error',
+        };
+      }
+
+      return {'success': false, 'message': 'No result from native code'};
+    } catch (e) {
+      return {'success': false, 'message': 'Error: $e'};
+    }
+  }
+
   /// Get AppData Roaming path
   static String getAppDataPath() {
     final envVars = Platform.environment;
