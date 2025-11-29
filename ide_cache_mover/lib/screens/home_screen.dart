@@ -457,7 +457,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               )
                             : ListView.builder(
-                                padding: const EdgeInsets.symmetric(horizontal: 12),
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
                                 itemCount: _availableIdes.length,
                                 itemBuilder: (context, index) {
                                   final ide = _availableIdes[index];
@@ -523,7 +523,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               // Action Buttons
                               if (_availableIdes.isNotEmpty)
                                 Container(
-                          padding: const EdgeInsets.all(12),
+                          padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.85),
                             borderRadius: const BorderRadius.only(
@@ -555,7 +555,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
+                                  const SizedBox(width: 12),
                                   Expanded(
                                     child: OutlinedButton.icon(
                                       onPressed: _isMoving ? null : _deselectAll,
