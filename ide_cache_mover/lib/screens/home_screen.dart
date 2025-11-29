@@ -37,9 +37,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _loadDestinationPath() async {
-    final path = await PathService.getDestinationPath();
+    // Load base path for display (without AppData\Roaming)
+    final basePath = await PathService.getBaseDestinationPath();
     setState(() {
-      _destinationPath = path;
+      _destinationPath = basePath;
     });
   }
 
@@ -48,13 +49,15 @@ class _HomeScreenState extends State<HomeScreen> {
       String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
       
       if (selectedDirectory != null && selectedDirectory.isNotEmpty) {
-        // Save the selected path
+        // Save the base path (AppData\Roaming will be auto-appended)
         final success = await PathService.setDestinationPath(selectedDirectory);
         if (success) {
+          // Get base path for display
+          final basePath = await PathService.getBaseDestinationPath();
           setState(() {
-            _destinationPath = selectedDirectory;
+            _destinationPath = basePath;
           });
-          _showMessage('Destination folder updated successfully', isError: false);
+          _showMessage('Destination folder updated. AppData\\Roaming will be created automatically.', isError: false);
         } else {
           _showMessage('Failed to save destination path', isError: true);
         }
@@ -758,7 +761,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       const SizedBox(width: 8),
                                       Expanded(
                                         child: Text(
-                                          _destinationPath.isEmpty ? 'Select destination folder...' : _destinationPath,
+                                          _destinationPath.isEmpty 
+                                              ? 'Select destination folder...' 
+                                              : 'Destination: $_destinationPath',
                                           style: const TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500,
