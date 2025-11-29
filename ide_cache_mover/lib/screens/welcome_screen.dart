@@ -86,22 +86,9 @@ class WelcomeScreen extends StatelessWidget {
                     children: [
                       // Header with close button
                       Container(
-                        padding: const EdgeInsets.fromLTRB(40, 40, 24, 24),
+                        padding: const EdgeInsets.fromLTRB(40, 48, 24, 32),
                         child: Row(
                           children: [
-                            Container(
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFDC143C).withOpacity(0.08),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: const Icon(
-                                Icons.rocket_launch_outlined,
-                                color: Color(0xFFDC143C),
-                                size: 20,
-                              ),
-                            ),
-                            const SizedBox(width: 16),
                             const Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,20 +97,20 @@ class WelcomeScreen extends StatelessWidget {
                                   Text(
                                     'NXIVE OPTIMIZER',
                                     style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w900,
-                                      color: Colors.black87,
-                                      letterSpacing: -0.5,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w800,
+                                      color: Color(0xFFDC143C),
+                                      letterSpacing: 0.5,
                                     ),
                                   ),
-                                  SizedBox(height: 2),
+                                  SizedBox(height: 4),
                                   Text(
-                                    'IDE FASTER & SSD PROTECTED',
+                                    'IDE Faster & SSD Protected',
                                     style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.black45,
-                                      letterSpacing: 0,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black54,
+                                      letterSpacing: 0.2,
                                     ),
                                   ),
                                 ],
@@ -133,18 +120,22 @@ class WelcomeScreen extends StatelessWidget {
                               color: Colors.transparent,
                               child: InkWell(
                                 onTap: () => _closeAndContinue(context),
-                                borderRadius: BorderRadius.circular(6),
+                                borderRadius: BorderRadius.circular(3),
                                 child: Container(
-                                  width: 32,
-                                  height: 32,
+                                  width: 36,
+                                  height: 36,
                                   decoration: BoxDecoration(
-                                    color: Colors.grey.shade100,
-                                    borderRadius: BorderRadius.circular(6),
+                                    color: Colors.grey.shade50,
+                                    borderRadius: BorderRadius.circular(3),
+                                    border: Border.all(
+                                      color: Colors.grey.shade200,
+                                      width: 1,
+                                    ),
                                   ),
                                   child: Icon(
                                     Icons.close,
-                                    size: 16,
-                                    color: Colors.grey.shade600,
+                                    size: 18,
+                                    color: Colors.grey.shade700,
                                   ),
                                 ),
                               ),
@@ -155,108 +146,80 @@ class WelcomeScreen extends StatelessWidget {
                       // Content
                       Expanded(
                         child: SingleChildScrollView(
-                          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 0),
+                          child: Table(
+                            columnWidths: const {
+                              0: FlexColumnWidth(1),
+                              1: FlexColumnWidth(0.08),
+                              2: FlexColumnWidth(1),
+                            },
                             children: [
-                              // Side-by-side Sections
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              // Header row
+                              TableRow(
                                 children: [
-                                  // Left: Critical Issues
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Container(
-                                              width: 3,
-                                              height: 20,
-                                              decoration: BoxDecoration(
-                                                color: const Color(0xFFDC143C),
-                                                borderRadius: BorderRadius.circular(2),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 12),
-                                            const Text(
-                                              'Problems',
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.black87,
-                                                letterSpacing: -0.3,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 20),
-                                        _buildProblemItem(
-                                          'IDE Lag Until Open New Chat',
-                                          'Slow response when starting new conversations',
-                                        ),
-                                        _buildProblemItem(
-                                          'SSD Lag & PC Lag',
-                                          'Constant cache writes cause system slowdowns',
-                                        ),
-                                        _buildProblemItem(
-                                          'Performance Reduction',
-                                          'Disk bottlenecks when using multiple IDEs',
-                                        ),
-                                        _buildProblemItem(
-                                          'SSD Crashes After Few Days',
-                                          'Excessive writes damage SSD controller',
-                                        ),
-                                      ],
-                                    ),
+                                  _buildTableHeader('Critical Issues', true),
+                                  const SizedBox(width: 16),
+                                  _buildTableHeader('Solutions', false),
+                                ],
+                              ),
+                              // Spacer row
+                              const TableRow(
+                                children: [
+                                  SizedBox(height: 20),
+                                  SizedBox(),
+                                  SizedBox(height: 20),
+                                ],
+                              ),
+                              // Content rows
+                              TableRow(
+                                children: [
+                                  _buildProblemItem(
+                                    'IDE Lag Until Open New Chat',
+                                    'Slow response when starting new conversations',
                                   ),
-                                  const SizedBox(width: 32),
-                                  // Right: What You'll Get
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Container(
-                                              width: 3,
-                                              height: 20,
-                                              decoration: BoxDecoration(
-                                                color: const Color(0xFF4CAF50),
-                                                borderRadius: BorderRadius.circular(2),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 12),
-                                            const Text(
-                                              'Solutions',
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.black87,
-                                                letterSpacing: -0.3,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 20),
-                                        _buildBenefitItem(
-                                          'Eliminate SSD lag and PC freezing',
-                                          'No more system slowdowns or freezing',
-                                        ),
-                                        _buildBenefitItem(
-                                          'Prevent SSD crashes and drive failures',
-                                          'Protect your SSD from excessive writes',
-                                        ),
-                                        _buildBenefitItem(
-                                          'Improve system performance significantly',
-                                          'Eliminate disk bottlenecks completely',
-                                        ),
-                                        _buildBenefitItem(
-                                          'Extend your SSD lifespan',
-                                          'Reduce wear and extend drive longevity',
-                                        ),
-                                      ],
-                                    ),
+                                  const SizedBox(),
+                                  _buildBenefitItem(
+                                    'Eliminate SSD lag and PC freezing',
+                                    'No more system slowdowns or freezing',
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  _buildProblemItem(
+                                    'SSD Lag & PC Lag',
+                                    'Constant cache writes cause system slowdowns',
+                                  ),
+                                  const SizedBox(),
+                                  _buildBenefitItem(
+                                    'Prevent SSD crashes and drive failures',
+                                    'Protect your SSD from excessive writes',
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  _buildProblemItem(
+                                    'Performance Reduction',
+                                    'Disk bottlenecks when using multiple IDEs',
+                                  ),
+                                  const SizedBox(),
+                                  _buildBenefitItem(
+                                    'Improve system performance significantly',
+                                    'Eliminate disk bottlenecks completely',
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  _buildProblemItem(
+                                    'SSD Crashes After Few Days',
+                                    'Excessive writes damage SSD controller',
+                                  ),
+                                  const SizedBox(),
+                                  _buildBenefitItem(
+                                    'Extend your SSD lifespan',
+                                    'Reduce wear and extend drive longevity',
                                   ),
                                 ],
                               ),
@@ -266,7 +229,7 @@ class WelcomeScreen extends StatelessWidget {
                       ),
                       // Footer with Continue button
                       Container(
-                        padding: const EdgeInsets.all(40),
+                        padding: const EdgeInsets.fromLTRB(40, 24, 40, 40),
                         child: SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
@@ -274,7 +237,7 @@ class WelcomeScreen extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFDC143C),
                               foregroundColor: Colors.white,
-                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              padding: const EdgeInsets.symmetric(vertical: 18),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(3),
                               ),
@@ -283,9 +246,9 @@ class WelcomeScreen extends StatelessWidget {
                             child: const Text(
                               'Continue to Scan',
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 15,
                                 fontWeight: FontWeight.w600,
-                                letterSpacing: 0,
+                                letterSpacing: 0.3,
                               ),
                             ),
                           ),
@@ -302,6 +265,21 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildTableHeader(String title, bool isProblem) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Text(
+        title.toUpperCase(),
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w800,
+          color: isProblem ? const Color(0xFFDC143C) : const Color(0xFF2E7D32),
+          letterSpacing: 1.2,
+        ),
+      ),
+    );
+  }
+
   Widget _buildProblemItem(String title, String description) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
@@ -312,20 +290,21 @@ class WelcomeScreen extends StatelessWidget {
           Text(
             title,
             style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: Colors.black87,
-              letterSpacing: -0.2,
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFFDC143C),
+              letterSpacing: 0.1,
             ),
           ),
           const SizedBox(height: 6),
           Text(
             description,
             style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey.shade600,
+              fontSize: 11,
+              color: Colors.grey.shade700,
               height: 1.5,
               letterSpacing: 0,
+              fontWeight: FontWeight.w400,
             ),
           ),
         ],
@@ -343,20 +322,21 @@ class WelcomeScreen extends StatelessWidget {
           Text(
             title,
             style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: Colors.black87,
-              letterSpacing: -0.2,
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF2E7D32),
+              letterSpacing: 0.1,
             ),
           ),
           const SizedBox(height: 6),
           Text(
             description,
             style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey.shade600,
+              fontSize: 11,
+              color: Colors.grey.shade700,
               height: 1.5,
               letterSpacing: 0,
+              fontWeight: FontWeight.w400,
             ),
           ),
         ],
