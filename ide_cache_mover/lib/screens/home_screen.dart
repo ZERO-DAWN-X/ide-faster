@@ -145,13 +145,20 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       builder: (context) {
         final screenWidth = MediaQuery.of(context).size.width;
-        final dialogWidth = (screenWidth * 0.85).clamp(280.0, 400.0);
+        // Right section is 3/5 of screen width, starting at 2/5
+        final rightSectionStart = screenWidth * 2 / 5;
+        final rightSectionWidth = screenWidth * 3 / 5;
+        final dialogWidth = (rightSectionWidth * 0.8).clamp(280.0, 400.0);
+        // Center dialog in right section
+        final leftPadding = rightSectionStart + (rightSectionWidth - dialogWidth) / 2;
         
         return Dialog(
           backgroundColor: Colors.transparent,
-          insetPadding: EdgeInsets.symmetric(
-            horizontal: (screenWidth - dialogWidth) / 2,
-            vertical: 40,
+          insetPadding: EdgeInsets.only(
+            left: leftPadding,
+            right: screenWidth - leftPadding - dialogWidth,
+            top: 40,
+            bottom: 40,
           ),
           child: Container(
             width: dialogWidth,
@@ -339,13 +346,20 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       builder: (context) {
         final screenWidth = MediaQuery.of(context).size.width;
-        final dialogWidth = (screenWidth * 0.85).clamp(280.0, 400.0);
+        // Right section is 3/5 of screen width, starting at 2/5
+        final rightSectionStart = screenWidth * 2 / 5;
+        final rightSectionWidth = screenWidth * 3 / 5;
+        final dialogWidth = (rightSectionWidth * 0.8).clamp(280.0, 400.0);
+        // Center dialog in right section
+        final leftPadding = rightSectionStart + (rightSectionWidth - dialogWidth) / 2;
         
         return Dialog(
           backgroundColor: Colors.transparent,
-          insetPadding: EdgeInsets.symmetric(
-            horizontal: (screenWidth - dialogWidth) / 2,
-            vertical: 40,
+          insetPadding: EdgeInsets.only(
+            left: leftPadding,
+            right: screenWidth - leftPadding - dialogWidth,
+            top: 40,
+            bottom: 40,
           ),
           child: Container(
             width: dialogWidth,
