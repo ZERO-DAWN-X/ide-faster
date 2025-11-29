@@ -192,6 +192,10 @@ class WelcomeScreen extends StatelessWidget {
                                         ),
                                         const SizedBox(height: 20),
                                         _buildProblemItem(
+                                          'IDE Lag Until Open New Chat',
+                                          'Slow response when starting new conversations',
+                                        ),
+                                        _buildProblemItem(
                                           'SSD Lag & PC Lag',
                                           'Constant cache writes cause system slowdowns',
                                         ),
@@ -272,7 +276,7 @@ class WelcomeScreen extends StatelessWidget {
                               foregroundColor: Colors.white,
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(3),
                               ),
                               elevation: 0,
                             ),
