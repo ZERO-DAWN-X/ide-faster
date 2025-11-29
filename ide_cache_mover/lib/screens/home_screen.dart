@@ -493,16 +493,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     flex: 3,
                     child: ClipRect(
                       child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.grey.shade200.withOpacity(0.3),
+                            color: Colors.white.withOpacity(0.15),
                             gradient: LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                Colors.grey.shade200.withOpacity(0.4),
-                                Colors.grey.shade200.withOpacity(0.2),
+                                Colors.white.withOpacity(0.2),
+                                Colors.white.withOpacity(0.1),
                               ],
                             ),
                           ),
