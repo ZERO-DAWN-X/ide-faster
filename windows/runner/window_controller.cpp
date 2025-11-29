@@ -4,7 +4,7 @@
 WindowController::WindowController(flutter::FlutterEngine* engine, HWND window_handle)
     : messenger_(engine->messenger()), window_handle_(window_handle) {
   channel_ = std::make_unique<flutter::MethodChannel<flutter::EncodableValue>>(
-      messenger_, "ide_cache_mover/window",
+      messenger_, "nxive_ide_optimizer/window",
       &flutter::StandardMethodCodec::GetInstance());
 
   channel_->SetMethodCallHandler(

@@ -29,7 +29,7 @@ A modern GUI application built with Flutter to move IDE cache folders from C: dr
 
 2. **Install dependencies:**
    ```bash
-   cd ide_cache_mover
+   cd nxive-ide-optimizer
    flutter pub get
    ```
 
@@ -45,7 +45,7 @@ flutter run -d windows
 flutter build windows --release
 ```
 
-The executable will be in `build\windows\x64\runner\Release\ide_cache_mover.exe`
+The executable will be in `build\windows\x64\runner\Release\NXIVE_Optimizer.exe`
 
 ## How It Works
 
@@ -84,7 +84,7 @@ The app will show a warning dialog before proceeding with the move operation.
 ## Project Structure
 
 ```
-ide_cache_mover/
+nxive-ide-optimizer/
 ├── lib/
 │   ├── main.dart                 # App entry point
 │   ├── models/

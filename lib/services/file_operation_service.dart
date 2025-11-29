@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import '../models/ide_model.dart';
 
 class FileOperationService {
-  static const MethodChannel _channel = MethodChannel('ide_cache_mover/file_ops');
+  static const MethodChannel _channel = MethodChannel('nxive_ide_optimizer/file_ops');
 
   /// Check if a folder exists at the given path
   static Future<bool> folderExists(String path) async {

@@ -11,7 +11,7 @@
 FileOpsHandler::FileOpsHandler(flutter::FlutterEngine* engine) 
     : messenger_(engine->messenger()) {
   channel_ = std::make_unique<flutter::MethodChannel<flutter::EncodableValue>>(
-      messenger_, "ide_cache_mover/file_ops",
+      messenger_, "nxive_ide_optimizer/file_ops",
       &flutter::StandardMethodCodec::GetInstance());
 
   channel_->SetMethodCallHandler(

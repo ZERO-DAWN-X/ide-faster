@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 
 class WindowService {
-  static const MethodChannel _channel = MethodChannel('ide_cache_mover/window');
+  static const MethodChannel _channel = MethodChannel('nxive_ide_optimizer/window');
 
   static Future<void> minimize() async {
     try {
