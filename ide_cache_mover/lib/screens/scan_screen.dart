@@ -332,14 +332,34 @@ class _ScanScreenState extends State<ScanScreen> {
                                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                                         decoration: BoxDecoration(
                                           color: isMoved
-                                              ? const Color(0xFF4CAF50).withOpacity(0.1)
-                                              : const Color(0xFFDC143C).withOpacity(0.1),
+                                              ? const Color(0xFFF1F8F4)
+                                              : Colors.white,
+                                          border: Border.all(
+                                            color: isMoved
+                                                ? const Color(0xFF4CAF50).withOpacity(0.3)
+                                                : const Color(0xFFDC143C).withOpacity(0.2),
+                                            width: 1,
+                                          ),
                                           borderRadius: BorderRadius.circular(3),
                                         ),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            _getIdeIcon(ide.id),
+                                            Container(
+                                              padding: const EdgeInsets.all(4),
+                                              decoration: BoxDecoration(
+                                                color: isMoved
+                                                    ? const Color(0xFF4CAF50).withOpacity(0.15)
+                                                    : const Color(0xFFDC143C).withOpacity(0.1),
+                                                borderRadius: BorderRadius.circular(3),
+                                              ),
+                                              child: _getIdeIcon(
+                                                ide.id,
+                                                color: isMoved
+                                                    ? const Color(0xFF4CAF50)
+                                                    : const Color(0xFFDC143C),
+                                              ),
+                                            ),
                                             const SizedBox(width: 8),
                                             Expanded(
                                               child: Column(
@@ -349,44 +369,60 @@ class _ScanScreenState extends State<ScanScreen> {
                                                 children: [
                                                   Text(
                                                     ide.name,
-                                                    style: const TextStyle(
+                                                    style: TextStyle(
                                                       fontSize: 11,
                                                       fontWeight: FontWeight.w600,
-                                                      color: Colors.black87,
+                                                      color: isMoved
+                                                          ? const Color(0xFF2E7D32)
+                                                          : Colors.black87,
                                                     ),
                                                     maxLines: 1,
                                                     overflow: TextOverflow.ellipsis,
                                                   ),
                                                   const SizedBox(height: 2),
-                                                  Row(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    children: [
-                                                      Container(
-                                                        width: 4,
-                                                        height: 4,
-                                                        decoration: BoxDecoration(
-                                                          color: isMoved
-                                                              ? const Color(0xFF4CAF50)
-                                                              : const Color(0xFFDC143C),
-                                                          shape: BoxShape.circle,
-                                                        ),
-                                                      ),
-                                                      const SizedBox(width: 4),
-                                                      Flexible(
-                                                        child: Text(
-                                                          isMoved ? 'Optimized' : 'Ready',
-                                                          style: TextStyle(
-                                                            fontSize: 9,
-                                                            color: isMoved
-                                                                ? const Color(0xFF4CAF50)
-                                                                : const Color(0xFFDC143C),
-                                                            fontWeight: FontWeight.w500,
+                                                  Container(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                                                    decoration: BoxDecoration(
+                                                      color: isMoved
+                                                          ? const Color(0xFF4CAF50).withOpacity(0.2)
+                                                          : const Color(0xFFDC143C).withOpacity(0.1),
+                                                      borderRadius: BorderRadius.circular(2),
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      children: [
+                                                        if (isMoved)
+                                                          Icon(
+                                                            Icons.check_circle,
+                                                            size: 8,
+                                                            color: const Color(0xFF4CAF50),
+                                                          )
+                                                        else
+                                                          Container(
+                                                            width: 4,
+                                                            height: 4,
+                                                            decoration: const BoxDecoration(
+                                                              color: Color(0xFFDC143C),
+                                                              shape: BoxShape.circle,
+                                                            ),
                                                           ),
-                                                          maxLines: 1,
-                                                          overflow: TextOverflow.ellipsis,
+                                                        const SizedBox(width: 2),
+                                                        Flexible(
+                                                          child: Text(
+                                                            isMoved ? 'Optimized' : 'Ready',
+                                                            style: TextStyle(
+                                                              fontSize: 8,
+                                                              color: isMoved
+                                                                  ? const Color(0xFF2E7D32)
+                                                                  : const Color(0xFFDC143C),
+                                                              fontWeight: FontWeight.w600,
+                                                            ),
+                                                            maxLines: 1,
+                                                            overflow: TextOverflow.ellipsis,
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
                                                 ],
                                               ),

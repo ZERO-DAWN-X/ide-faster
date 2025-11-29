@@ -646,6 +646,36 @@ class _HomeScreenState extends State<HomeScreen> {
                                               final isAlreadyMoved = ide.status == IdeStatus.alreadyMoved;
                                               final isNotInstalled = ide.status == IdeStatus.notInstalled;
                                               
+                                              // Determine background color based on status
+                                              Color backgroundColor;
+                                              Color borderColor;
+                                              Color iconBgColor;
+                                              Color textColor;
+                                              
+                                              if (isAlreadyMoved) {
+                                                // Optimized (already moved) - Green tint
+                                                backgroundColor = ide.isSelected
+                                                    ? const Color(0xFFE8F5E9)
+                                                    : const Color(0xFFF1F8F4);
+                                                borderColor = const Color(0xFF4CAF50).withOpacity(0.3);
+                                                iconBgColor = const Color(0xFF4CAF50).withOpacity(0.15);
+                                                textColor = const Color(0xFF2E7D32);
+                                              } else if (isAvailable) {
+                                                // Unoptimized (available) - Red tint
+                                                backgroundColor = ide.isSelected
+                                                    ? const Color(0xFFFFE4E1)
+                                                    : Colors.white;
+                                                borderColor = const Color(0xFFDC143C).withOpacity(0.2);
+                                                iconBgColor = const Color(0xFFDC143C).withOpacity(0.1);
+                                                textColor = Colors.black87;
+                                              } else {
+                                                // Not installed - Gray
+                                                backgroundColor = Colors.grey.shade100;
+                                                borderColor = Colors.grey.shade300;
+                                                iconBgColor = Colors.grey.shade200;
+                                                textColor = Colors.grey.shade600;
+                                              }
+
                                               return Material(
                                                 color: Colors.transparent,
                                                 child: InkWell(
@@ -657,9 +687,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     opacity: (isAvailable || isAlreadyMoved) ? 1.0 : 0.5,
                                                       child: Container(
                                                         decoration: BoxDecoration(
-                                                          color: ide.isSelected
-                                                              ? const Color(0xFFFFE4E1)
-                                                              : Colors.white,
+                                                          color: backgroundColor,
+                                                          border: Border.all(
+                                                            color: borderColor,
+                                                            width: 1,
+                                                          ),
                                                           borderRadius: BorderRadius.circular(3),
                                                         ),
                                                       child: Row(
@@ -669,69 +701,119 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         // Selected indicator
                                                         if (ide.isSelected)
                                                           Container(
-                                                            width: 3,
-                                                            height: 3,
+                                                            width: 4,
+                                                            height: 4,
                                                             decoration: BoxDecoration(
-                                                              color: const Color(0xFFDC143C),
+                                                              color: isAlreadyMoved
+                                                                  ? const Color(0xFF4CAF50)
+                                                                  : const Color(0xFFDC143C),
                                                               shape: BoxShape.circle,
                                                             ),
                                                           )
                                                         else
-                                                          const SizedBox(width: 3),
+                                                          const SizedBox(width: 4),
                                                         const SizedBox(width: 6),
                                                         // Icon
                                                         Container(
                                                           padding: const EdgeInsets.all(4),
                                                           decoration: BoxDecoration(
-                                                            color: ide.isSelected
-                                                                ? const Color(0xFFFF69B4).withOpacity(0.15)
-                                                                : Colors.grey.shade50.withOpacity(0.5),
+                                                            color: iconBgColor,
                                                             borderRadius: BorderRadius.circular(3),
                                                           ),
                                                           child: _getIdeIcon(
                                                             ide.id,
                                                             color: ide.isSelected
-                                                                ? const Color(0xFFDC143C)
-                                                                : Colors.black87,
+                                                                ? (isAlreadyMoved
+                                                                    ? const Color(0xFF4CAF50)
+                                                                    : const Color(0xFFDC143C))
+                                                                : textColor,
                                                           ),
                                                         ),
                                                         const SizedBox(width: 6),
                                                         // Name
                                                         Expanded(
-                                                          child: Text(
-                                                            ide.name,
-                                                            style: TextStyle(
-                                                              fontSize: 11,
-                                                              fontWeight: FontWeight.w600,
-                                                              color: ide.isSelected
-                                                                  ? const Color(0xFFDC143C)
-                                                                  : Colors.black87,
-                                                            ),
-                                                            maxLines: 1,
-                                                            overflow: TextOverflow.ellipsis,
+                                                          child: Row(
+                                                            children: [
+                                                              Expanded(
+                                                                child: Text(
+                                                                  ide.name,
+                                                                  style: TextStyle(
+                                                                    fontSize: 11,
+                                                                    fontWeight: FontWeight.w600,
+                                                                    color: ide.isSelected
+                                                                        ? (isAlreadyMoved
+                                                                            ? const Color(0xFF2E7D32)
+                                                                            : const Color(0xFFDC143C))
+                                                                        : textColor,
+                                                                  ),
+                                                                  maxLines: 1,
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                ),
+                                                              ),
+                                                              // Status badge
+                                                              if (isAlreadyMoved)
+                                                                Container(
+                                                                  margin: const EdgeInsets.only(left: 4),
+                                                                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                                                                  decoration: BoxDecoration(
+                                                                    color: const Color(0xFF4CAF50).withOpacity(0.2),
+                                                                    borderRadius: BorderRadius.circular(2),
+                                                                  ),
+                                                                  child: Row(
+                                                                    mainAxisSize: MainAxisSize.min,
+                                                                    children: [
+                                                                      Icon(
+                                                                        Icons.check_circle,
+                                                                        size: 8,
+                                                                        color: const Color(0xFF4CAF50),
+                                                                      ),
+                                                                      const SizedBox(width: 2),
+                                                                      Text(
+                                                                        'Done',
+                                                                        style: TextStyle(
+                                                                          fontSize: 8,
+                                                                          fontWeight: FontWeight.w600,
+                                                                          color: const Color(0xFF2E7D32),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              else if (isAvailable)
+                                                                Container(
+                                                                  margin: const EdgeInsets.only(left: 4),
+                                                                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                                                                  decoration: BoxDecoration(
+                                                                    color: const Color(0xFFDC143C).withOpacity(0.1),
+                                                                    borderRadius: BorderRadius.circular(2),
+                                                                  ),
+                                                                  child: Row(
+                                                                    mainAxisSize: MainAxisSize.min,
+                                                                    children: [
+                                                                      Container(
+                                                                        width: 4,
+                                                                        height: 4,
+                                                                        decoration: const BoxDecoration(
+                                                                          color: Color(0xFFDC143C),
+                                                                          shape: BoxShape.circle,
+                                                                        ),
+                                                                      ),
+                                                                      const SizedBox(width: 2),
+                                                                      Text(
+                                                                        'Ready',
+                                                                        style: TextStyle(
+                                                                          fontSize: 8,
+                                                                          fontWeight: FontWeight.w600,
+                                                                          color: const Color(0xFFDC143C),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                            ],
                                                           ),
                                                         ),
-                                                        // Status indicator
-                                                        if (isAlreadyMoved)
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(right: 6),
-                                                            child: Icon(
-                                                              Icons.check_circle,
-                                                              size: 12,
-                                                              color: Colors.grey.shade400,
-                                                            ),
-                                                          )
-                                                        else if (isNotInstalled)
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(right: 6),
-                                                            child: Icon(
-                                                              Icons.remove_circle_outline,
-                                                              size: 12,
-                                                              color: Colors.grey.shade400,
-                                                            ),
-                                                          )
-                                                        else
-                                                          const SizedBox(width: 6),
+                                                        const SizedBox(width: 6),
                                                       ],
                                                       ),
                                                     ),
