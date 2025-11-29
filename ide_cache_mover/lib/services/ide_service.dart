@@ -37,10 +37,106 @@ class IdeService {
         appDataFolderName: 'Windsurf',
         destinationFolderName: 'Windsurf',
       ),
+      IdeModel(
+        id: 'zed',
+        name: 'Zed',
+        appDataFolderName: 'Zed',
+        destinationFolderName: 'Zed',
+      ),
+      IdeModel(
+        id: 'trae',
+        name: 'Trae',
+        appDataFolderName: 'Trae',
+        destinationFolderName: 'Trae',
+      ),
+      IdeModel(
+        id: 'wrap',
+        name: 'Wrap',
+        appDataFolderName: 'Wrap',
+        destinationFolderName: 'Wrap',
+      ),
+      IdeModel(
+        id: 'qader',
+        name: 'Qader',
+        appDataFolderName: 'Qader',
+        destinationFolderName: 'Qader',
+      ),
+      IdeModel(
+        id: 'replit',
+        name: 'Replit',
+        appDataFolderName: 'Replit',
+        destinationFolderName: 'Replit',
+      ),
+      IdeModel(
+        id: 'project_idx',
+        name: 'Project IDX',
+        appDataFolderName: 'Project IDX',
+        destinationFolderName: 'Project-IDX',
+      ),
+      IdeModel(
+        id: 'github_copilot',
+        name: 'GitHub Copilot',
+        appDataFolderName: 'GitHub Copilot',
+        destinationFolderName: 'GitHub-Copilot',
+      ),
+      IdeModel(
+        id: 'tabnine',
+        name: 'Tabnine',
+        appDataFolderName: 'Tabnine',
+        destinationFolderName: 'Tabnine',
+      ),
+      IdeModel(
+        id: 'codeium',
+        name: 'Codeium',
+        appDataFolderName: 'Codeium',
+        destinationFolderName: 'Codeium',
+      ),
+      IdeModel(
+        id: 'intellij',
+        name: 'IntelliJ IDEA',
+        appDataFolderName: 'JetBrains',
+        destinationFolderName: 'JetBrains',
+      ),
+      IdeModel(
+        id: 'pycharm',
+        name: 'PyCharm',
+        appDataFolderName: 'JetBrains',
+        destinationFolderName: 'JetBrains',
+      ),
+      IdeModel(
+        id: 'webstorm',
+        name: 'WebStorm',
+        appDataFolderName: 'JetBrains',
+        destinationFolderName: 'JetBrains',
+      ),
+      IdeModel(
+        id: 'eclipse_theia',
+        name: 'Eclipse Theia',
+        appDataFolderName: 'Eclipse Theia',
+        destinationFolderName: 'Eclipse-Theia',
+      ),
+      IdeModel(
+        id: 'continue',
+        name: 'Continue',
+        appDataFolderName: 'Continue',
+        destinationFolderName: 'Continue',
+      ),
+      IdeModel(
+        id: 'aider',
+        name: 'Aider',
+        appDataFolderName: 'Aider',
+        destinationFolderName: 'Aider',
+      ),
+      IdeModel(
+        id: 'codeium_chat',
+        name: 'Codeium Chat',
+        appDataFolderName: 'Codeium Chat',
+        destinationFolderName: 'Codeium-Chat',
+      ),
     ];
   }
 
-  /// Check all IDEs and their status (returns all 5 IDEs)
+  /// Check all IDEs and their status (returns all AI-powered IDEs)
   static Future<List<IdeModel>> checkAvailableIdes() async {
     final ides = getAvailableIdes();
     final appDataPath = FileOperationService.getAppDataPath();

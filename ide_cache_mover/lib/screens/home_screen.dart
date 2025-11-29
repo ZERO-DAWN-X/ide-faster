@@ -918,6 +918,35 @@ class _HomeScreenState extends State<HomeScreen> {
         return Icons.psychology;
       case 'windsurf':
         return Icons.surfing;
+      case 'zed':
+        return Icons.speed;
+      case 'trae':
+        return Icons.auto_awesome;
+      case 'wrap':
+        return Icons.wrap_text;
+      case 'qader':
+        return Icons.rocket_launch;
+      case 'replit':
+        return Icons.cloud;
+      case 'project_idx':
+        return Icons.explore;
+      case 'github_copilot':
+        return Icons.code;
+      case 'tabnine':
+        return Icons.auto_fix_high;
+      case 'codeium':
+      case 'codeium_chat':
+        return Icons.chat_bubble;
+      case 'intellij':
+      case 'pycharm':
+      case 'webstorm':
+        return Icons.developer_mode;
+      case 'eclipse_theia':
+        return Icons.brightness_1;
+      case 'continue':
+        return Icons.play_arrow;
+      case 'aider':
+        return Icons.assistant;
       default:
         return Icons.folder;
     }
