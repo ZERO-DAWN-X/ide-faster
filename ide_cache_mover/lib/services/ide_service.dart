@@ -64,30 +64,30 @@ class IdeService {
     ];
   }
 
-  /// Check which IDEs exist and are not already moved
+  /// Check all IDEs and their status (returns all 9 IDEs from batch file)
   static Future<List<IdeModel>> checkAvailableIdes() async {
     final ides = getAvailableIdes();
     final appDataPath = FileOperationService.getAppDataPath();
 
     if (appDataPath.isEmpty) {
-      return [];
+      // Return all IDEs with notInstalled status if we can't get AppData path
+      return ides;
     }
 
-    final availableIdes = <IdeModel>[];
-
+    // Check status for each IDE
     for (final ide in ides) {
       final folderPath = '$appDataPath\\${ide.appDataFolderName}';
       final exists = await FileOperationService.folderExists(folderPath);
 
       if (exists) {
         final isJunction = await FileOperationService.isJunction(folderPath);
-        if (!isJunction) {
-          availableIdes.add(ide);
-        }
+        ide.status = isJunction ? IdeStatus.alreadyMoved : IdeStatus.available;
+      } else {
+        ide.status = IdeStatus.notInstalled;
       }
     }
 
-    return availableIdes;
+    return ides; // Return all IDEs, not just available ones
   }
 
   /// Move selected IDEs

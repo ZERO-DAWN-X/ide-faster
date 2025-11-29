@@ -37,9 +37,10 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _availableIdes = ides;
         _isLoading = false;
-        _statusMessage = _availableIdes.isEmpty
-            ? 'No IDEs found to move (or all already moved)'
-            : 'Select IDEs to move to D: drive';
+        final availableCount = ides.where((ide) => ide.status == IdeStatus.available).length;
+        _statusMessage = availableCount > 0
+            ? 'Select IDEs to move to D: drive'
+            : 'All IDEs are already moved or not installed';
       });
     } catch (e) {
       setState(() {
@@ -51,14 +52,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _toggleSelection(int index) {
     setState(() {
-      _availableIdes[index].isSelected = !_availableIdes[index].isSelected;
+      final ide = _availableIdes[index];
+      // Only allow selection if IDE is available (not already moved or not installed)
+      if (ide.status == IdeStatus.available) {
+        ide.isSelected = !ide.isSelected;
+      }
     });
   }
 
   void _selectAll() {
     setState(() {
       for (var ide in _availableIdes) {
-        ide.isSelected = true;
+        if (ide.status == IdeStatus.available) {
+          ide.isSelected = true;
+        }
       }
     });
   }
@@ -456,62 +463,57 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ],
                                         ),
                                       )
-                                    : LayoutBuilder(
-                                        builder: (context, constraints) {
-                                          // Responsive grid: 3 columns for wider screens, 2 for medium, 1 for narrow
-                                          int crossAxisCount = 3;
-                                          if (constraints.maxWidth < 600) {
-                                            crossAxisCount = 2;
-                                          }
-                                          if (constraints.maxWidth < 400) {
-                                            crossAxisCount = 1;
-                                          }
-                                          
-                                          return GridView.builder(
-                                            padding: const EdgeInsets.all(12),
-                                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: crossAxisCount,
-                                              crossAxisSpacing: 8,
-                                              mainAxisSpacing: 8,
-                                              childAspectRatio: 3.5,
+                                    : GridView.builder(
+                                            padding: const EdgeInsets.all(8),
+                                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 3,
+                                              crossAxisSpacing: 6,
+                                              mainAxisSpacing: 6,
+                                              childAspectRatio: 4.5,
                                             ),
                                             itemCount: _availableIdes.length,
                                             itemBuilder: (context, index) {
                                               final ide = _availableIdes[index];
+                                              final isAvailable = ide.status == IdeStatus.available;
+                                              final isAlreadyMoved = ide.status == IdeStatus.alreadyMoved;
+                                              final isNotInstalled = ide.status == IdeStatus.notInstalled;
+                                              
                                               return Material(
                                                 color: Colors.transparent,
                                                 child: InkWell(
-                                                  onTap: _isMoving
+                                                  onTap: _isMoving || !isAvailable
                                                       ? null
                                                       : () => _toggleSelection(index),
                                                   borderRadius: BorderRadius.circular(3),
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      color: (ide.isSelected
-                                                              ? const Color(0xFFFFE4E1)
-                                                              : Colors.white).withOpacity(0.85),
-                                                      borderRadius: BorderRadius.circular(3),
-                                                    ),
-                                                    child: Row(
-                                                      mainAxisSize: MainAxisSize.min,
+                                                  child: Opacity(
+                                                    opacity: isAvailable ? 1.0 : 0.5,
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: (ide.isSelected
+                                                                ? const Color(0xFFFFE4E1)
+                                                                : Colors.white).withOpacity(0.85),
+                                                        borderRadius: BorderRadius.circular(3),
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisSize: MainAxisSize.min,
                                                       children: [
-                                                        const SizedBox(width: 8),
+                                                        const SizedBox(width: 6),
                                                         // Selected indicator
                                                         if (ide.isSelected)
                                                           Container(
-                                                            width: 4,
-                                                            height: 4,
+                                                            width: 3,
+                                                            height: 3,
                                                             decoration: BoxDecoration(
                                                               color: const Color(0xFFDC143C),
                                                               shape: BoxShape.circle,
                                                             ),
                                                           )
                                                         else
-                                                          const SizedBox(width: 4),
-                                                        const SizedBox(width: 8),
+                                                          const SizedBox(width: 3),
+                                                        const SizedBox(width: 6),
                                                         // Icon
                                                         Container(
-                                                          padding: const EdgeInsets.all(6),
+                                                          padding: const EdgeInsets.all(4),
                                                           decoration: BoxDecoration(
                                                             color: ide.isSelected
                                                                 ? const Color(0xFFFF69B4).withOpacity(0.15)
@@ -523,16 +525,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             color: ide.isSelected
                                                                 ? const Color(0xFFDC143C)
                                                                 : Colors.black87,
-                                                            size: 16,
+                                                            size: 14,
                                                           ),
                                                         ),
-                                                        const SizedBox(width: 8),
+                                                        const SizedBox(width: 6),
                                                         // Name
                                                         Expanded(
                                                           child: Text(
                                                             ide.name,
                                                             style: TextStyle(
-                                                              fontSize: 12,
+                                                              fontSize: 11,
                                                               fontWeight: FontWeight.w600,
                                                               color: ide.isSelected
                                                                   ? const Color(0xFFDC143C)
@@ -542,16 +544,35 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             overflow: TextOverflow.ellipsis,
                                                           ),
                                                         ),
-                                                        const SizedBox(width: 8),
+                                                        // Status indicator
+                                                        if (isAlreadyMoved)
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(right: 6),
+                                                            child: Icon(
+                                                              Icons.check_circle,
+                                                              size: 12,
+                                                              color: Colors.grey.shade400,
+                                                            ),
+                                                          )
+                                                        else if (isNotInstalled)
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(right: 6),
+                                                            child: Icon(
+                                                              Icons.remove_circle_outline,
+                                                              size: 12,
+                                                              color: Colors.grey.shade400,
+                                                            ),
+                                                          )
+                                                        else
+                                                          const SizedBox(width: 6),
                                                       ],
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               );
                                             },
-                                          );
-                                        },
-                                      ),
+                                          ),
                               ),
 
                               // Action Buttons
