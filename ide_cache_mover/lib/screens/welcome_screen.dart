@@ -96,13 +96,29 @@ class WelcomeScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 12),
                                 const Expanded(
-                                  child: Text(
-                                    'IDE Faster - Protect Your SSD',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.black87,
-                                    ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        'NXIVE OPTIMIZER',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w800,
+                                          color: Color(0xFFDC143C),
+                                          letterSpacing: 1.2,
+                                        ),
+                                      ),
+                                      SizedBox(height: 2),
+                                      Text(
+                                        'IDE Faster - Protect Your SSD',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 Material(
@@ -171,17 +187,15 @@ class WelcomeScreen extends StatelessWidget {
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(height: 12),
+                                            const SizedBox(height: 16),
                                             _buildProblemItem(
                                               'SSD Lag & PC Lag',
                                               'Constant cache writes cause system slowdowns',
                                             ),
-                                            const SizedBox(height: 8),
                                             _buildProblemItem(
                                               'Performance Reduction',
                                               'Disk bottlenecks when using multiple IDEs',
                                             ),
-                                            const SizedBox(height: 8),
                                             _buildProblemItem(
                                               'SSD Crashes After Few Days',
                                               'Excessive writes damage SSD controller',
@@ -222,22 +236,19 @@ class WelcomeScreen extends StatelessWidget {
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(height: 12),
+                                            const SizedBox(height: 16),
                                             _buildBenefitItem(
                                               'Eliminate SSD lag and PC freezing',
                                               'No more system slowdowns or freezing',
                                             ),
-                                            const SizedBox(height: 8),
                                             _buildBenefitItem(
                                               'Prevent SSD crashes and drive failures',
                                               'Protect your SSD from excessive writes',
                                             ),
-                                            const SizedBox(height: 8),
                                             _buildBenefitItem(
                                               'Improve system performance significantly',
                                               'Eliminate disk bottlenecks completely',
                                             ),
-                                            const SizedBox(height: 8),
                                             _buildBenefitItem(
                                               'Extend your SSD lifespan',
                                               'Reduce wear and extend drive longevity',
@@ -291,54 +302,27 @@ class WelcomeScreen extends StatelessWidget {
   }
 
   Widget _buildProblemItem(String title, String description) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFE4E1).withOpacity(0.5),
-        borderRadius: BorderRadius.circular(3),
-        border: Border.all(
-          color: const Color(0xFFDC143C).withOpacity(0.2),
-          width: 1,
-        ),
-      ),
-      child: Row(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 3),
-            child: Container(
-              width: 5,
-              height: 5,
-              decoration: const BoxDecoration(
-                color: Color(0xFFDC143C),
-                shape: BoxShape.circle,
-              ),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFFDC143C),
             ),
           ),
-          const SizedBox(width: 8),
-          Expanded(
-              child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFFDC143C),
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  description,
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Colors.grey.shade700,
-                    height: 1.3,
-                  ),
-                ),
-              ],
+          const SizedBox(height: 4),
+          Text(
+            description,
+            style: TextStyle(
+              fontSize: 11,
+              color: Colors.grey.shade700,
+              height: 1.4,
             ),
           ),
         ],
@@ -347,54 +331,27 @@ class WelcomeScreen extends StatelessWidget {
   }
 
   Widget _buildBenefitItem(String title, String description) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF1F8F4).withOpacity(0.5),
-        borderRadius: BorderRadius.circular(3),
-        border: Border.all(
-          color: const Color(0xFF4CAF50).withOpacity(0.2),
-          width: 1,
-        ),
-      ),
-      child: Row(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 3),
-            child: Container(
-              width: 5,
-              height: 5,
-              decoration: const BoxDecoration(
-                color: Color(0xFF4CAF50),
-                shape: BoxShape.circle,
-              ),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF2E7D32),
             ),
           ),
-          const SizedBox(width: 8),
-          Expanded(
-              child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF2E7D32),
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  description,
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Colors.grey.shade700,
-                    height: 1.3,
-                  ),
-                ),
-              ],
+          const SizedBox(height: 4),
+          Text(
+            description,
+            style: TextStyle(
+              fontSize: 11,
+              color: Colors.grey.shade700,
+              height: 1.4,
             ),
           ),
         ],
