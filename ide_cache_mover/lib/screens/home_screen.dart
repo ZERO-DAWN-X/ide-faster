@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:file_picker/file_picker.dart';
 import '../models/ide_model.dart';
 import '../services/ide_service.dart';
 import '../services/window_service.dart';
+import '../services/path_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,11 +23,43 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isMoving = false;
   String _statusMessage = '';
   bool _showSuccess = false;
+  String _destinationPath = '';
+  String? _toastMessage;
+  bool _isToastError = false;
 
   @override
   void initState() {
     super.initState();
+    _loadDestinationPath();
     _loadAvailableIdes();
+  }
+
+  Future<void> _loadDestinationPath() async {
+    final path = await PathService.getDestinationPath();
+    setState(() {
+      _destinationPath = path;
+    });
+  }
+
+  Future<void> _selectDestinationFolder() async {
+    try {
+      String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+      
+      if (selectedDirectory != null && selectedDirectory.isNotEmpty) {
+        // Save the selected path
+        final success = await PathService.setDestinationPath(selectedDirectory);
+        if (success) {
+          setState(() {
+            _destinationPath = selectedDirectory;
+          });
+          _showMessage('Destination folder updated successfully', isError: false);
+        } else {
+          _showMessage('Failed to save destination path', isError: true);
+        }
+      }
+    } catch (e) {
+      _showMessage('Error selecting folder: $e', isError: true);
+    }
   }
 
   Future<void> _loadAvailableIdes() async {
@@ -398,24 +432,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _showMessage(String message, {bool isError = false}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style: const TextStyle(
-            fontWeight: FontWeight.w500,
-            color: Colors.white,
-          ),
-        ),
-        backgroundColor: isError ? const Color(0xFFDC143C) : const Color(0xFFDC143C),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        margin: const EdgeInsets.all(16),
-        duration: const Duration(seconds: 3),
-      ),
-    );
+    setState(() {
+      _toastMessage = message;
+      _isToastError = isError;
+    });
+
+    // Auto-hide after 3 seconds
+    Future.delayed(const Duration(seconds: 3), () {
+      if (mounted) {
+        setState(() {
+          _toastMessage = null;
+        });
+      }
+    });
   }
 
   @override
@@ -707,6 +736,62 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                               ),
 
+                              // Destination Path Selector
+                              if (_availableIdes.isNotEmpty)
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(3),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      const FaIcon(
+                                        FontAwesomeIcons.folderOpen,
+                                        size: 14,
+                                        color: Colors.black87,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Expanded(
+                                        child: Text(
+                                          _destinationPath.isEmpty ? 'Select destination folder...' : _destinationPath,
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black87,
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Material(
+                                        color: Colors.transparent,
+                                        child: InkWell(
+                                          onTap: _isMoving ? null : _selectDestinationFolder,
+                                          borderRadius: BorderRadius.circular(3),
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFFDC143C).withOpacity(0.1),
+                                              borderRadius: BorderRadius.circular(3),
+                                            ),
+                                            child: const Text(
+                                              'Change',
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.w600,
+                                                color: Color(0xFFDC143C),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
                               // Action Buttons
                               if (_availableIdes.isNotEmpty)
                                 Container(
@@ -863,6 +948,80 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
+          // Toast Message at Bottom
+          if (_toastMessage != null)
+            Positioned(
+              bottom: 16,
+              left: 16,
+              right: 16,
+              child: AnimatedOpacity(
+                opacity: _toastMessage != null ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 200),
+                child: Material(
+                  color: Colors.transparent,
+                  child: Container(
+                    constraints: const BoxConstraints(maxWidth: 400),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: _isToastError ? const Color(0xFFDC143C) : const Color(0xFF4CAF50),
+                      borderRadius: BorderRadius.circular(3),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.15),
+                          blurRadius: 6,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          _isToastError ? Icons.error_outline : Icons.check_circle_outline,
+                          size: 14,
+                          color: Colors.white,
+                        ),
+                        const SizedBox(width: 8),
+                        Flexible(
+                          child: Text(
+                            _toastMessage!,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.2,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                _toastMessage = null;
+                              });
+                            },
+                            borderRadius: BorderRadius.circular(3),
+                            child: const Padding(
+                              padding: EdgeInsets.all(2),
+                              child: Icon(
+                                Icons.close,
+                                size: 12,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
           // Custom Window Controls - GitHub and Close Buttons
           Positioned(
             top: 8,
@@ -934,7 +1093,7 @@ class _HomeScreenState extends State<HomeScreen> {
     
     switch (ideId) {
       case 'cursor':
-        return FaIcon(FontAwesomeIcons.mousePointer, size: iconSize, color: iconColor);
+        return FaIcon(FontAwesomeIcons.arrowPointer, size: iconSize, color: iconColor);
       case 'vscode':
       case 'vscode_insiders':
         return FaIcon(FontAwesomeIcons.code, size: iconSize, color: iconColor);

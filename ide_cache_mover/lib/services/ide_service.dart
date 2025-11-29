@@ -1,9 +1,9 @@
 import 'dart:io';
 import '../models/ide_model.dart';
 import 'file_operation_service.dart';
+import 'path_service.dart';
 
 class IdeService {
-  static const String destinationBasePath = r'D:\AppData\Roaming';
 
   static List<IdeModel> getAvailableIdes() {
     return [
@@ -165,6 +165,7 @@ class IdeService {
   /// Move selected IDEs
   static Future<Map<String, dynamic>> moveSelectedIdes(List<IdeModel> selectedIdes) async {
     final appDataPath = FileOperationService.getAppDataPath();
+    final destinationBasePath = await PathService.getDestinationPath();
     final results = <String, Map<String, dynamic>>{};
 
     // Create destination directory if it doesn't exist
@@ -191,6 +192,7 @@ class IdeService {
   /// Revert selected IDEs (move back to original location)
   static Future<Map<String, dynamic>> revertSelectedIdes(List<IdeModel> selectedIdes) async {
     final appDataPath = FileOperationService.getAppDataPath();
+    final destinationBasePath = await PathService.getDestinationPath();
     final results = <String, Map<String, dynamic>>{};
 
     for (final ide in selectedIdes) {

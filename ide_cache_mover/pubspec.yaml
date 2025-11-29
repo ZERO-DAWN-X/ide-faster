@@ -37,6 +37,8 @@ dependencies:
   path_provider: ^2.1.2
   url_launcher: ^6.3.1
   font_awesome_flutter: ^10.7.0
+  file_picker: ^8.1.4
+  shared_preferences: ^2.3.3
 
 dev_dependencies:
   flutter_test:
