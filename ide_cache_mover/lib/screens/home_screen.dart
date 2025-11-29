@@ -728,14 +728,6 @@ class _HomeScreenState extends State<HomeScreen> {
         return Icons.psychology;
       case 'windsurf':
         return Icons.surfing;
-      case 'discord':
-        return Icons.chat;
-      case 'github':
-        return Icons.source;
-      case 'figma':
-        return Icons.design_services;
-      case 'obs':
-        return Icons.videocam;
       default:
         return Icons.folder;
     }

@@ -37,34 +37,10 @@ class IdeService {
         appDataFolderName: 'Windsurf',
         destinationFolderName: 'Windsurf',
       ),
-      IdeModel(
-        id: 'discord',
-        name: 'Discord',
-        appDataFolderName: 'discord',
-        destinationFolderName: 'discord',
-      ),
-      IdeModel(
-        id: 'github',
-        name: 'GitHub Desktop',
-        appDataFolderName: 'GitHub Desktop',
-        destinationFolderName: 'GitHub-Desktop',
-      ),
-      IdeModel(
-        id: 'figma',
-        name: 'Figma',
-        appDataFolderName: 'Figma',
-        destinationFolderName: 'Figma',
-      ),
-      IdeModel(
-        id: 'obs',
-        name: 'OBS Studio',
-        appDataFolderName: 'obs-studio',
-        destinationFolderName: 'obs-studio',
-      ),
     ];
   }
 
-  /// Check all IDEs and their status (returns all 9 IDEs from batch file)
+  /// Check all IDEs and their status (returns all 5 IDEs)
   static Future<List<IdeModel>> checkAvailableIdes() async {
     final ides = getAvailableIdes();
     final appDataPath = FileOperationService.getAppDataPath();
