@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../models/ide_model.dart';
 import '../services/ide_service.dart';
 import '../services/window_service.dart';
@@ -652,12 +653,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 : Colors.grey.shade50.withOpacity(0.5),
                                                             borderRadius: BorderRadius.circular(3),
                                                           ),
-                                                          child: Icon(
-                                                            _getIdeIcon(ide.id),
+                                                          child: _getIdeIcon(
+                                                            ide.id,
                                                             color: ide.isSelected
                                                                 ? const Color(0xFFDC143C)
                                                                 : Colors.black87,
-                                                            size: 14,
                                                           ),
                                                         ),
                                                         const SizedBox(width: 6),
@@ -889,8 +889,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         borderRadius: BorderRadius.circular(3),
                       ),
                       alignment: Alignment.center,
-                      child: const Icon(
-                        Icons.public,
+                      child: const FaIcon(
+                        FontAwesomeIcons.github,
                         size: 18,
                         color: Colors.black87,
                       ),
@@ -928,48 +928,53 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  IconData _getIdeIcon(String ideId) {
+  Widget _getIdeIcon(String ideId, {Color? color}) {
+    final iconColor = color ?? Colors.black87;
+    final iconSize = 14.0;
+    
     switch (ideId) {
       case 'cursor':
-        return Icons.code;
+        return FaIcon(FontAwesomeIcons.mousePointer, size: iconSize, color: iconColor);
       case 'vscode':
       case 'vscode_insiders':
-        return Icons.integration_instructions;
+        return FaIcon(FontAwesomeIcons.code, size: iconSize, color: iconColor);
       case 'claude':
-        return Icons.psychology;
+        return Icon(Icons.psychology, size: iconSize, color: iconColor);
       case 'windsurf':
-        return Icons.surfing;
+        return FaIcon(FontAwesomeIcons.wind, size: iconSize, color: iconColor);
       case 'zed':
-        return Icons.speed;
+        return FaIcon(FontAwesomeIcons.bolt, size: iconSize, color: iconColor);
       case 'trae':
-        return Icons.auto_awesome;
+        return FaIcon(FontAwesomeIcons.star, size: iconSize, color: iconColor);
       case 'wrap':
-        return Icons.wrap_text;
+        return FaIcon(FontAwesomeIcons.bars, size: iconSize, color: iconColor);
       case 'qader':
-        return Icons.rocket_launch;
+        return FaIcon(FontAwesomeIcons.rocket, size: iconSize, color: iconColor);
       case 'replit':
-        return Icons.cloud;
+        return FaIcon(FontAwesomeIcons.cloud, size: iconSize, color: iconColor);
       case 'project_idx':
-        return Icons.explore;
+        return FaIcon(FontAwesomeIcons.google, size: iconSize, color: iconColor);
       case 'github_copilot':
-        return Icons.code;
+        return FaIcon(FontAwesomeIcons.github, size: iconSize, color: iconColor);
       case 'tabnine':
-        return Icons.auto_fix_high;
+        return FaIcon(FontAwesomeIcons.wandMagicSparkles, size: iconSize, color: iconColor);
       case 'codeium':
       case 'codeium_chat':
-        return Icons.chat_bubble;
+        return FaIcon(FontAwesomeIcons.comments, size: iconSize, color: iconColor);
       case 'intellij':
+        return FaIcon(FontAwesomeIcons.java, size: iconSize, color: iconColor);
       case 'pycharm':
+        return FaIcon(FontAwesomeIcons.python, size: iconSize, color: iconColor);
       case 'webstorm':
-        return Icons.developer_mode;
+        return FaIcon(FontAwesomeIcons.js, size: iconSize, color: iconColor);
       case 'eclipse_theia':
-        return Icons.brightness_1;
+        return Icon(Icons.brightness_1, size: iconSize, color: iconColor);
       case 'continue':
-        return Icons.play_arrow;
+        return FaIcon(FontAwesomeIcons.play, size: iconSize, color: iconColor);
       case 'aider':
-        return Icons.assistant;
+        return FaIcon(FontAwesomeIcons.robot, size: iconSize, color: iconColor);
       default:
-        return Icons.folder;
+        return Icon(Icons.folder, size: iconSize, color: iconColor);
     }
   }
 }
