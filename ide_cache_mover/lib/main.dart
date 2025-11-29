@@ -68,9 +68,11 @@ class MyApp extends StatelessWidget {
               if (states.contains(MaterialState.selected)) {
                 return const Color(0xFFDC143C);
               }
-              return null;
+              return Colors.transparent;
             },
           ),
+          checkColor: MaterialStateProperty.all(Colors.white),
+          side: BorderSide.none,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(4),
           ),
