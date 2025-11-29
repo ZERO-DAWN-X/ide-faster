@@ -634,7 +634,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     opacity: (isAvailable || isAlreadyMoved) ? 1.0 : 0.5,
                                                       child: Container(
                                                         decoration: BoxDecoration(
-                                                          color: Colors.white,
+                                                          color: ide.isSelected
+                                                              ? const Color(0xFFFFE4E1)
+                                                              : Colors.white,
                                                           borderRadius: BorderRadius.circular(3),
                                                         ),
                                                       child: Row(
