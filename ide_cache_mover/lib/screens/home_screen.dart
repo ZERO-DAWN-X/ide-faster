@@ -417,107 +417,138 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
 
-                              // IDE List
+                              // IDE Grid
                               Expanded(
-                        child: _availableIdes.isEmpty
-                            ? Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(16),
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFFFFE4E1),
-                                        shape: BoxShape.circle,
+                                child: _availableIdes.isEmpty
+                                    ? Center(
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              padding: const EdgeInsets.all(16),
+                                              decoration: BoxDecoration(
+                                                color: const Color(0xFFFFE4E1),
+                                                shape: BoxShape.circle,
+                                              ),
+                                              child: const Icon(
+                                                Icons.check_circle_outline,
+                                                size: 48,
+                                                color: Color(0xFFDC143C),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 16),
+                                            const Text(
+                                              'No IDEs available to move',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black87,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 6),
+                                            Text(
+                                              'All IDEs have been moved or not installed',
+                                              style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : GridView.builder(
+                                        padding: const EdgeInsets.all(16),
+                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          crossAxisSpacing: 12,
+                                          mainAxisSpacing: 12,
+                                          childAspectRatio: 2.2,
+                                        ),
+                                        itemCount: _availableIdes.length,
+                                        itemBuilder: (context, index) {
+                                          final ide = _availableIdes[index];
+                                          return Material(
+                                            color: Colors.transparent,
+                                            child: InkWell(
+                                              onTap: _isMoving
+                                                  ? null
+                                                  : () => _toggleSelection(index),
+                                              borderRadius: BorderRadius.circular(3),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: (ide.isSelected
+                                                          ? const Color(0xFFFFE4E1)
+                                                          : Colors.white).withOpacity(0.85),
+                                                  borderRadius: BorderRadius.circular(3),
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    // Checkbox
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left: 12),
+                                                      child: Checkbox(
+                                                        value: ide.isSelected,
+                                                        onChanged: _isMoving
+                                                            ? null
+                                                            : (_) => _toggleSelection(index),
+                                                      ),
+                                                    ),
+                                                    // Icon
+                                                    Container(
+                                                      padding: const EdgeInsets.all(10),
+                                                      decoration: BoxDecoration(
+                                                        color: ide.isSelected
+                                                            ? const Color(0xFFFF69B4).withOpacity(0.15)
+                                                            : Colors.grey.shade50.withOpacity(0.5),
+                                                        borderRadius: BorderRadius.circular(3),
+                                                      ),
+                                                      child: Icon(
+                                                        _getIdeIcon(ide.id),
+                                                        color: ide.isSelected
+                                                            ? const Color(0xFFDC143C)
+                                                            : Colors.black87,
+                                                        size: 24,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 12),
+                                                    // Name
+                                                    Expanded(
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                            ide.name,
+                                                            style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w600,
+                                                              color: ide.isSelected
+                                                                  ? const Color(0xFFDC143C)
+                                                                  : Colors.black87,
+                                                            ),
+                                                            maxLines: 1,
+                                                            overflow: TextOverflow.ellipsis,
+                                                          ),
+                                                          const SizedBox(height: 2),
+                                                          Text(
+                                                            ide.appDataFolderName,
+                                                            style: TextStyle(
+                                                              fontSize: 11,
+                                                              color: Colors.grey.shade600,
+                                                            ),
+                                                            maxLines: 1,
+                                                            overflow: TextOverflow.ellipsis,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
                                       ),
-                                      child: const Icon(
-                                        Icons.check_circle_outline,
-                                        size: 48,
-                                        color: Color(0xFFDC143C),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    const Text(
-                                      'No IDEs available to move',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black87,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 6),
-                                    Text(
-                                      'All IDEs have been moved or not installed',
-                                      style: TextStyle(
-                                        color: Colors.grey.shade600,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : ListView.builder(
-                                padding: const EdgeInsets.symmetric(horizontal: 16),
-                                itemCount: _availableIdes.length,
-                                itemBuilder: (context, index) {
-                                  final ide = _availableIdes[index];
-                                  return Container(
-                              margin: const EdgeInsets.only(bottom: 8),
-                              decoration: BoxDecoration(
-                                color: (ide.isSelected
-                                        ? const Color(0xFFFFE4E1)
-                                        : Colors.white).withOpacity(0.85),
-                                borderRadius: BorderRadius.circular(3),
-                              ),
-                              child: CheckboxListTile(
-                                dense: true,
-                                title: Text(
-                                  ide.name,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w600,
-                                    color: ide.isSelected
-                                        ? const Color(0xFFDC143C)
-                                        : Colors.black87,
-                                  ),
-                                ),
-                                subtitle: Text(
-                                  '${Platform.environment['APPDATA']}\\${ide.appDataFolderName}',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: Colors.grey.shade600,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                value: ide.isSelected,
-                                onChanged: _isMoving
-                                    ? null
-                                    : (_) => _toggleSelection(index),
-                                secondary: Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: ide.isSelected
-                                        ? const Color(0xFFFF69B4).withOpacity(0.15)
-                                        : Colors.grey.shade50.withOpacity(0.5),
-                                    borderRadius: BorderRadius.circular(3),
-                                  ),
-                                  child: Icon(
-                                    _getIdeIcon(ide.id),
-                                    color: ide.isSelected
-                                        ? const Color(0xFFDC143C)
-                                        : Colors.black87,
-                                    size: 20,
-                                  ),
-                                ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 8,
-                                ),
-                                ),
-                              );
-                                },
-                              ),
                               ),
 
                               // Action Buttons
