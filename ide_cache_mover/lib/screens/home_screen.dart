@@ -239,14 +239,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(3),
                           ),
+                          alignment: Alignment.center,
                         ),
-                        child: Text(
-                          'Cancel',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.grey.shade700,
+                        child: SizedBox(
+                          width: 70,
+                          child: Text(
+                            'Cancel',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey.shade700,
+                            ),
                           ),
                         ),
                       ),
@@ -263,13 +267,17 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius: BorderRadius.circular(3),
                           ),
                           elevation: 0,
+                          alignment: Alignment.center,
                         ),
-                        child: const Text(
-                          'Restore',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700,
+                        child: const SizedBox(
+                          width: 80,
+                          child: Text(
+                            'Restore',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ),
@@ -425,14 +433,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(3),
                           ),
+                          alignment: Alignment.center,
                         ),
-                        child: Text(
-                          'Cancel',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.grey.shade700,
+                        child: SizedBox(
+                          width: 70,
+                          child: Text(
+                            'Cancel',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey.shade700,
+                            ),
                           ),
                         ),
                       ),
@@ -449,13 +461,17 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius: BorderRadius.circular(3),
                           ),
                           elevation: 0,
+                          alignment: Alignment.center,
                         ),
-                        child: const Text(
-                          'Continue',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700,
+                        child: const SizedBox(
+                          width: 80,
+                          child: Text(
+                            'Continue',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ),
