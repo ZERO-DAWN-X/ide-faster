@@ -39,8 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
         _isLoading = false;
         final availableCount = ides.where((ide) => ide.status == IdeStatus.available).length;
         _statusMessage = availableCount > 0
-            ? 'Select IDEs to move to D: drive'
-            : 'All IDEs are already moved or not installed';
+            ? 'Select IDEs to optimize performance'
+            : 'All IDEs are already optimized or not installed';
       });
     } catch (e) {
       setState(() {

@@ -36,7 +36,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
   
   Win32Window::Point origin(x, y);
   Win32Window::Size size(windowWidth, windowHeight);
-  if (!window.Create(L"IDE Cache Mover", origin, size)) {
+  if (!window.Create(L"IDE Faster", origin, size)) {
     return EXIT_FAILURE;
   }
   window.SetQuitOnClose(true);
