@@ -99,52 +99,53 @@ class _ScanScreenState extends State<ScanScreen> {
     return FileOperationService.getAppDataPath();
   }
 
-  Widget _getIdeIcon(String ideId) {
+  Widget _getIdeIcon(String ideId, {Color? color}) {
+    final iconColor = color ?? Colors.black87;
     const iconSize = 20.0;
     
     switch (ideId) {
       case 'cursor':
-        return FaIcon(FontAwesomeIcons.arrowPointer, size: iconSize);
+        return FaIcon(FontAwesomeIcons.arrowPointer, size: iconSize, color: iconColor);
       case 'vscode':
       case 'vscode_insiders':
-        return FaIcon(FontAwesomeIcons.code, size: iconSize);
+        return FaIcon(FontAwesomeIcons.code, size: iconSize, color: iconColor);
       case 'claude':
-        return const Icon(Icons.psychology, size: iconSize);
+        return Icon(Icons.psychology, size: iconSize, color: iconColor);
       case 'windsurf':
-        return FaIcon(FontAwesomeIcons.wind, size: iconSize);
+        return FaIcon(FontAwesomeIcons.wind, size: iconSize, color: iconColor);
       case 'zed':
-        return FaIcon(FontAwesomeIcons.bolt, size: iconSize);
+        return FaIcon(FontAwesomeIcons.bolt, size: iconSize, color: iconColor);
       case 'trae':
-        return FaIcon(FontAwesomeIcons.star, size: iconSize);
+        return FaIcon(FontAwesomeIcons.star, size: iconSize, color: iconColor);
       case 'wrap':
-        return FaIcon(FontAwesomeIcons.bars, size: iconSize);
+        return FaIcon(FontAwesomeIcons.bars, size: iconSize, color: iconColor);
       case 'qader':
-        return FaIcon(FontAwesomeIcons.rocket, size: iconSize);
+        return FaIcon(FontAwesomeIcons.rocket, size: iconSize, color: iconColor);
       case 'replit':
-        return FaIcon(FontAwesomeIcons.cloud, size: iconSize);
+        return FaIcon(FontAwesomeIcons.cloud, size: iconSize, color: iconColor);
       case 'project_idx':
-        return FaIcon(FontAwesomeIcons.google, size: iconSize);
+        return FaIcon(FontAwesomeIcons.google, size: iconSize, color: iconColor);
       case 'github_copilot':
-        return FaIcon(FontAwesomeIcons.github, size: iconSize);
+        return FaIcon(FontAwesomeIcons.github, size: iconSize, color: iconColor);
       case 'tabnine':
-        return FaIcon(FontAwesomeIcons.wandMagicSparkles, size: iconSize);
+        return FaIcon(FontAwesomeIcons.wandMagicSparkles, size: iconSize, color: iconColor);
       case 'codeium':
       case 'codeium_chat':
-        return FaIcon(FontAwesomeIcons.comments, size: iconSize);
+        return FaIcon(FontAwesomeIcons.comments, size: iconSize, color: iconColor);
       case 'intellij':
-        return FaIcon(FontAwesomeIcons.java, size: iconSize);
+        return FaIcon(FontAwesomeIcons.java, size: iconSize, color: iconColor);
       case 'pycharm':
-        return FaIcon(FontAwesomeIcons.python, size: iconSize);
+        return FaIcon(FontAwesomeIcons.python, size: iconSize, color: iconColor);
       case 'webstorm':
-        return FaIcon(FontAwesomeIcons.js, size: iconSize);
+        return FaIcon(FontAwesomeIcons.js, size: iconSize, color: iconColor);
       case 'eclipse_theia':
-        return const Icon(Icons.brightness_1, size: iconSize);
+        return Icon(Icons.brightness_1, size: iconSize, color: iconColor);
       case 'continue':
-        return FaIcon(FontAwesomeIcons.play, size: iconSize);
+        return FaIcon(FontAwesomeIcons.play, size: iconSize, color: iconColor);
       case 'aider':
-        return FaIcon(FontAwesomeIcons.robot, size: iconSize);
+        return FaIcon(FontAwesomeIcons.robot, size: iconSize, color: iconColor);
       default:
-        return const Icon(Icons.folder, size: iconSize);
+        return Icon(Icons.folder, size: iconSize, color: iconColor);
     }
   }
 

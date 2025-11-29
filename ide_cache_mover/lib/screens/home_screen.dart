@@ -1131,17 +1131,30 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     borderRadius: BorderRadius.circular(3),
                     child: Container(
-                      width: 32,
-                      height: 32,
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.85),
                         borderRadius: BorderRadius.circular(3),
                       ),
-                      alignment: Alignment.center,
-                      child: const FaIcon(
-                        FontAwesomeIcons.github,
-                        size: 18,
-                        color: Colors.black87,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text(
+                            'FOLLOW',
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black87,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          const FaIcon(
+                            FontAwesomeIcons.github,
+                            size: 16,
+                            color: Colors.black87,
+                          ),
+                        ],
                       ),
                     ),
                   ),
