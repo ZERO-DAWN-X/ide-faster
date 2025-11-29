@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: const Color(0xFFFFE4E1),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(3),
               ),
               child: const Row(
                 children: [
@@ -166,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: TextButton.styleFrom(
               foregroundColor: Colors.black,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(3),
               ),
             ),
             child: const Text(
@@ -180,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
               backgroundColor: const Color(0xFFDC143C),
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(3),
               ),
             ),
             child: const Text(
@@ -368,7 +368,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     : _isMoving
                                         ? const Color(0xFFFFF0F5)
                                         : Colors.white).withOpacity(0.9),
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(3),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.05),
@@ -467,7 +467,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color: (ide.isSelected
                                         ? const Color(0xFFFFE4E1)
                                         : Colors.white).withOpacity(0.85),
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(3),
                               ),
                               child: CheckboxListTile(
                                 dense: true,
@@ -500,7 +500,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     color: ide.isSelected
                                         ? const Color(0xFFFF69B4).withOpacity(0.15)
                                         : Colors.grey.shade50.withOpacity(0.5),
-                                    borderRadius: BorderRadius.circular(8),
+                                    borderRadius: BorderRadius.circular(3),
                                   ),
                                   child: Icon(
                                     _getIdeIcon(ide.id),
@@ -527,8 +527,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.85),
                             borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(12),
-                              topRight: Radius.circular(12),
+                              topLeft: Radius.circular(3),
+                              topRight: Radius.circular(3),
                             ),
                           ),
                           child: Column(
@@ -614,7 +614,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     elevation: _selectedCount == 0 ? 0 : 2,
                                     shadowColor: const Color(0xFFDC143C).withOpacity(0.3),
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
+                                      borderRadius: BorderRadius.circular(3),
                                     ),
                                   ),
                                 ),
@@ -639,13 +639,13 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Colors.transparent,
               child: InkWell(
                 onTap: WindowService.close,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(3),
                 child: Container(
                   width: 32,
                   height: 32,
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.85),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(3),
                   ),
                   alignment: Alignment.center,
                   child: const Icon(

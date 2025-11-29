@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         cardTheme: CardThemeData(
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(3),
           ),
           color: Colors.white,
         ),
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
             foregroundColor: Colors.white,
             elevation: 0,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(3),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           ),
@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
             side: BorderSide.none,
             backgroundColor: Colors.white.withOpacity(0.7),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(3),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           ),
@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
           checkColor: MaterialStateProperty.all(Colors.white),
           side: BorderSide.none,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(3),
           ),
         ),
       ),
