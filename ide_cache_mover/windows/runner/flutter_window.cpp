@@ -73,16 +73,16 @@ FlutterWindow::MessageHandler(HWND hwnd, UINT const message,
       flutter_controller_->engine()->ReloadSystemFonts();
       break;
     case WM_NCHITTEST: {
-      // Allow window dragging from anywhere for frameless window
+      // Allow window dragging from top area for frameless window
       LRESULT hit = Win32Window::MessageHandler(hwnd, message, wparam, lparam);
-      
-      // If it's the client area, make it draggable
-      // Flutter widgets (buttons, checkboxes) will still receive click events
-      // because Flutter processes input before this handler
       if (hit == HTCLIENT) {
-        return HTCAPTION;  // Make entire window draggable
+        POINT pt = {LOWORD(lparam), HIWORD(lparam)};
+        ScreenToClient(hwnd, &pt);
+        // Make top 40 pixels draggable
+        if (pt.y < 40) {
+          return HTCAPTION;
+        }
       }
-      
       return hit;
     }
   }
