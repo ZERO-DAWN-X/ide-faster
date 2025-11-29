@@ -1143,7 +1143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             'FOLLOW',
                             style: TextStyle(
                               fontSize: 10,
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w900,
                               color: Colors.black87,
                               letterSpacing: 0.5,
                             ),
