@@ -261,7 +261,7 @@ class WelcomeScreen extends StatelessWidget {
               ),
             ],
           ),
-          // Draggable title bar area (excludes close button on the right)
+          // Draggable title bar area with double-click to close (excludes close button on the right)
           Positioned(
             top: 0,
             left: 0,
@@ -269,6 +269,7 @@ class WelcomeScreen extends StatelessWidget {
             height: 100,
             child: GestureDetector(
               onPanStart: (_) => WindowService.startDrag(),
+              onDoubleTap: WindowService.close, // Double-click to close
               child: Container(
                 color: Colors.transparent,
               ),

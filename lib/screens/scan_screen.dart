@@ -482,7 +482,7 @@ class _ScanScreenState extends State<ScanScreen> {
           ],
         ),
           ),
-          // Draggable title bar area
+          // Draggable title bar area with double-click to close
           Positioned(
             top: 0,
             left: 0,
@@ -490,6 +490,7 @@ class _ScanScreenState extends State<ScanScreen> {
             height: 100, // Extended drag area
             child: GestureDetector(
               onPanStart: (_) => WindowService.startDrag(),
+              onDoubleTap: WindowService.close, // Double-click to close
               child: Container(
                 color: Colors.transparent,
               ),
