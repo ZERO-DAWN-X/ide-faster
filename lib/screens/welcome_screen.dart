@@ -261,12 +261,12 @@ class WelcomeScreen extends StatelessWidget {
               ),
             ],
           ),
-          // Draggable title bar area
+          // Draggable title bar area (excludes close button on the right)
           Positioned(
             top: 0,
             left: 0,
-            right: 0,
-            height: 48,
+            right: 70, // Exclude right 70px for close button
+            height: 100,
             child: GestureDetector(
               onPanStart: (_) => WindowService.startDrag(),
               child: Container(

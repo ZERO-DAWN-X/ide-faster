@@ -1225,12 +1225,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
 
-          // Draggable title bar area
+          // Draggable title bar area (excludes button area on the right)
           Positioned(
             top: 0,
             left: 0,
-            right: 0,
-            height: 48,
+            right: 200, // Exclude right 200px for buttons
+            height: 100, // Extended drag area
             child: GestureDetector(
               onPanStart: (_) => WindowService.startDrag(),
               child: Container(

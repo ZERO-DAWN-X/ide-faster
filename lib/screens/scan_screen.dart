@@ -487,7 +487,7 @@ class _ScanScreenState extends State<ScanScreen> {
             top: 0,
             left: 0,
             right: 0,
-            height: 48,
+            height: 100, // Extended drag area
             child: GestureDetector(
               onPanStart: (_) => WindowService.startDrag(),
               child: Container(
