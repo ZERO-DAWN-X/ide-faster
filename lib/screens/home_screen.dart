@@ -1076,7 +1076,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     label: Text(
                                       _isMoving
                                           ? 'Moving...'
-                                          : 'Move Selected ($_selectedAvailableCount)',
+                                          : 'Optimize Selected ($_selectedAvailableCount)',
                                       style: const TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.bold,
