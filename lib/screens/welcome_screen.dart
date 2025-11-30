@@ -85,60 +85,30 @@ class WelcomeScreen extends StatelessWidget {
                   color: Colors.white,
                   child: Column(
                     children: [
-                      // Header with close button
+                      // Header
                       Container(
-                        padding: const EdgeInsets.fromLTRB(40, 48, 24, 32),
-                        child: Row(
+                        padding: const EdgeInsets.fromLTRB(40, 48, 40, 32),
+                        child: const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    'NXIVE OPTIMIZER',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w800,
-                                      color: Color(0xFFDC143C),
-                                      letterSpacing: 0.5,
-                                    ),
-                                  ),
-                                  SizedBox(height: 4),
-                                  Text(
-                                    'NXIVE Optimizer - SSD Protected',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black54,
-                                      letterSpacing: 0.2,
-                                    ),
-                                  ),
-                                ],
+                            Text(
+                              'NXIVE OPTIMIZER',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w800,
+                                color: Color(0xFFDC143C),
+                                letterSpacing: 0.5,
                               ),
                             ),
-                            Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                onTap: () => _closeAndContinue(context),
-                                borderRadius: BorderRadius.circular(3),
-                                child: Container(
-                                  width: 36,
-                                  height: 36,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey.shade50,
-                                    borderRadius: BorderRadius.circular(3),
-                                    border: Border.all(
-                                      color: Colors.grey.shade200,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Icon(
-                                    Icons.close,
-                                    size: 18,
-                                    color: Colors.grey.shade700,
-                                  ),
-                                ),
+                            SizedBox(height: 4),
+                            Text(
+                              'NXIVE Optimizer - SSD Protected',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black54,
+                                letterSpacing: 0.2,
                               ),
                             ),
                           ],
@@ -261,7 +231,7 @@ class WelcomeScreen extends StatelessWidget {
               ),
             ],
           ),
-          // Draggable title bar area with double-click to close (excludes close button on the right)
+          // Draggable title bar area (excludes close button on the right)
           Positioned(
             top: 0,
             left: 0,
@@ -269,9 +239,39 @@ class WelcomeScreen extends StatelessWidget {
             height: 100,
             child: GestureDetector(
               onPanStart: (_) => WindowService.startDrag(),
-              onDoubleTap: WindowService.close, // Double-click to close
               child: Container(
                 color: Colors.transparent,
+              ),
+            ),
+          ),
+
+          // Close Button (overlaid at top-right)
+          Positioned(
+            top: 8,
+            right: 8,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: WindowService.close,
+                borderRadius: BorderRadius.circular(3),
+                child: Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.95),
+                    borderRadius: BorderRadius.circular(3),
+                    border: Border.all(
+                      color: Colors.grey.shade300,
+                      width: 1,
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: const Icon(
+                    Icons.close,
+                    size: 18,
+                    color: Color(0xFFDC143C),
+                  ),
+                ),
               ),
             ),
           ),

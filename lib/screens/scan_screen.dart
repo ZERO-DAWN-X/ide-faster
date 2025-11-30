@@ -482,17 +482,43 @@ class _ScanScreenState extends State<ScanScreen> {
           ],
         ),
           ),
-          // Draggable title bar area with double-click to close
+          // Draggable title bar area
           Positioned(
             top: 0,
             left: 0,
-            right: 0,
+            right: 60, // Exclude close button area
             height: 100, // Extended drag area
             child: GestureDetector(
               onPanStart: (_) => WindowService.startDrag(),
-              onDoubleTap: WindowService.close, // Double-click to close
               child: Container(
                 color: Colors.transparent,
+              ),
+            ),
+          ),
+
+          // Close Button
+          Positioned(
+            top: 8,
+            right: 8,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: WindowService.close,
+                borderRadius: BorderRadius.circular(3),
+                child: Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.85),
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                  alignment: Alignment.center,
+                  child: const Icon(
+                    Icons.close,
+                    size: 18,
+                    color: Color(0xFFDC143C),
+                  ),
+                ),
               ),
             ),
           ),

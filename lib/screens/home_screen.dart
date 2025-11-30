@@ -1225,7 +1225,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
 
-          // Draggable title bar area with double-click to close (excludes button area on the right)
+          // Draggable title bar area (excludes button area on the right)
           Positioned(
             top: 0,
             left: 0,
@@ -1233,7 +1233,6 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 100, // Extended drag area
             child: GestureDetector(
               onPanStart: (_) => WindowService.startDrag(),
-              onDoubleTap: WindowService.close, // Double-click to close
               child: Container(
                 color: Colors.transparent,
               ),
