@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../models/ide_model.dart';
 import '../services/ide_service.dart';
 import '../services/file_operation_service.dart';
+import '../services/window_service.dart';
 import 'home_screen.dart';
 
 class ScanScreen extends StatefulWidget {
@@ -168,7 +169,9 @@ class _ScanScreenState extends State<ScanScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFA),
-      body: Container(
+      body: Stack(
+        children: [
+          Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -478,6 +481,21 @@ class _ScanScreenState extends State<ScanScreen> {
             ),
           ],
         ),
+          ),
+          // Draggable title bar area
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 48,
+            child: GestureDetector(
+              onPanStart: (_) => WindowService.startDrag(),
+              child: Container(
+                color: Colors.transparent,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

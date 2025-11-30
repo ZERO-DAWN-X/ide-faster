@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'scan_screen.dart';
+import '../services/window_service.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -259,6 +260,19 @@ class WelcomeScreen extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          // Draggable title bar area
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 48,
+            child: GestureDetector(
+              onPanStart: (_) => WindowService.startDrag(),
+              child: Container(
+                color: Colors.transparent,
+              ),
+            ),
           ),
         ],
       ),

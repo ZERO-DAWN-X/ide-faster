@@ -26,5 +26,13 @@ class WindowService {
       // Handle error silently
     }
   }
+
+  static Future<void> startDrag() async {
+    try {
+      await _channel.invokeMethod('startDrag');
+    } catch (e) {
+      // Handle error silently
+    }
+  }
 }
 

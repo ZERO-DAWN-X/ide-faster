@@ -36,6 +36,11 @@ void WindowController::HandleMethodCall(
   } else if (method_name == "close") {
     PostMessage(window_handle_, WM_CLOSE, 0, 0);
     result->Success(flutter::EncodableValue(true));
+  } else if (method_name == "startDrag") {
+    // Release mouse capture and send WM_NCLBUTTONDOWN to start window dragging
+    ReleaseCapture();
+    SendMessage(window_handle_, WM_NCLBUTTONDOWN, HTCAPTION, 0);
+    result->Success(flutter::EncodableValue(true));
   } else {
     result->NotImplemented();
   }

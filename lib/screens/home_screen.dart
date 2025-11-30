@@ -1225,6 +1225,20 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
 
+          // Draggable title bar area
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 48,
+            child: GestureDetector(
+              onPanStart: (_) => WindowService.startDrag(),
+              child: Container(
+                color: Colors.transparent,
+              ),
+            ),
+          ),
+
           // Custom Window Controls - GitHub and Close Buttons
           Positioned(
             top: 8,
