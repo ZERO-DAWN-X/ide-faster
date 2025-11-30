@@ -189,7 +189,7 @@ class _ScanScreenState extends State<ScanScreen> {
             Expanded(
               flex: 2,
               child: Image.asset(
-                'assets/images/3.png',
+                'assets/images/2.png',
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: double.infinity,

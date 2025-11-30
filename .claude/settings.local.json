@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(flutter build:*)",
+      "Bash(where:*)",
+      "Bash(\"C:/Program Files (x86)/NSIS/makensis.exe\" installer_simple.nsi)"
     ],
     "deny": [],
     "ask": []

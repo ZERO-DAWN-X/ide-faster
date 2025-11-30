@@ -1,0 +1,19 @@
+NXIVE Optimizer - End User License Agreement
+
+Copyright (C) 2025 NXIVE. All rights reserved.
+
+Permission is hereby granted to use this software for personal and commercial purposes.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+BY INSTALLING THIS SOFTWARE, YOU AGREE TO THE FOLLOWING TERMS:
+
+1. This software is designed to optimize IDE cache storage and protect SSD drives.
+2. The software requires administrator privileges to perform file operations.
+3. The software uses junction points to redirect IDE cache folders.
+4. Always close all IDE applications before using this software.
+5. The software provider is not responsible for any data loss or system issues.
+
+For support and updates, visit: https://github.com/ZERO-DAWN-X
