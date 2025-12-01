@@ -4,15 +4,15 @@ A professional desktop application built with Flutter that optimizes your develo
 
 ![NXIVE Optimizer](assets/screenshots/3.png)
 
-## Overview
-
-NXIVE Optimizer addresses critical SSD performance issues faced by developers using multiple AI-powered IDEs. It intelligently manages heavy development data so your tools continue working normally while significantly reducing the load on your primary SSD.
-
 ## Issues You May Face
 
 ![High disk usage in Task Manager](assets/screenshots/taskmanager.png)
 
-After working in your IDE for a few hours, your PC can gradually start to feel slow or even briefly unresponsive. When you open Task Manager to investigate, you often see your primary drive showing very high active time in the graph, which matches the slow responses, delayed clicks and overall system slowdown.
+After working in your IDE for a few hours, your PC can gradually start to feel slow or even briefly unresponsive. When you open Task Manager to investigate, you often see your primary drive showing very high active time in the graph, which matches the slow responses, delayed clicks and overall system slowdown. When this situation repeats often and your SSD or HDD is constantly under heavy read and write activity, it can shorten the lifetime of the drive and increase the risk of future failures. **Repeated spikes like this put your storage device at genuine risk of premature damage.**
+
+## Overview
+
+NXIVE Optimizer addresses critical SSD performance issues faced by developers using multiple AI-powered IDEs. It intelligently manages heavy development data so your tools continue working normally while significantly reducing the load on your primary SSD.
 
 ## Key Benefits
 
