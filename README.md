@@ -1,9 +1,5 @@
 # NXIVE Optimizer
 
-A professional desktop application built with Flutter that optimizes your development environment by relocating IDE cache folders from your primary SSD to a secondary drive. This helps reduce SSD wear, improve system performance, and prevent potential drive failures.
-
-![NXIVE Optimizer](assets/screenshots/3.png)
-
 ## Issues You May Face
 
 ![High disk usage in Task Manager](assets/screenshots/taskmanager.png)
@@ -12,7 +8,11 @@ After working in your IDE for a few hours, your PC can gradually start to feel s
 
 ## Overview
 
-NXIVE Optimizer addresses critical SSD performance issues faced by developers using multiple AI-powered IDEs. It intelligently manages heavy development data so your tools continue working normally while significantly reducing the load on your primary SSD.
+A professional desktop application built with Flutter that optimizes your development environment by relocating IDE cache folders from your primary SSD to a secondary drive. This helps reduce SSD wear, improve system performance and prevent potential drive failures.
+
+![NXIVE Optimizer](assets/screenshots/3.png)
+
+NXIVE Optimizer also addresses critical SSD performance issues faced by developers using multiple AI-powered IDEs. It intelligently manages heavy development data so your tools continue working normally while significantly reducing the load on your primary SSD.
 
 ## Key Benefits
 
