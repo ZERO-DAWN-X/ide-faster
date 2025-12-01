@@ -12,7 +12,7 @@ NXIVE Optimizer addresses critical SSD performance issues faced by developers us
 
 ![High disk usage in Task Manager](assets/screenshots/taskmanager.png)
 
-After working in your IDE for a few hours, your PC can gradually start to feel laggy or even momentarily stuck. When you open Task Manager to investigate, you often see your primary drive sitting at very high active time, as in the graph above, which explains the slow responses, delayed clicks, and general system slowdown.
+After working in your IDE for a few hours, your PC can gradually start to feel slow or even briefly unresponsive. When you open Task Manager to investigate, you often see your primary drive showing very high active time in the graph, which matches the slow responses, delayed clicks and overall system slowdown.
 
 ## Key Benefits
 
