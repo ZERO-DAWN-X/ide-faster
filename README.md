@@ -67,19 +67,6 @@ NXIVE Optimizer also addresses critical SSD performance issues faced by develope
 
 The application supports the following development environments:
 
-**AI-Powered Editors:**
-- Cursor
-- Claude
-- Windsurf
-- Zed
-- Trae
-- Wrap
-- Qader
-- Replit
-- Project IDX
-- Continue
-- Aider
-
 **Traditional IDEs:**
 - Visual Studio Code
 - Visual Studio Code Insiders
@@ -93,6 +80,19 @@ The application supports the following development environments:
 - Tabnine
 - Codeium
 - Codeium Chat
+
+**AI-Powered Editors:**
+- Cursor
+- Claude
+- Windsurf
+- Zed
+- Trae
+- Wrap
+- Qader
+- Replit
+- Project IDX
+- Continue
+- Aider
 
 ## Prerequisites
 
