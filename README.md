@@ -12,7 +12,7 @@ NXIVE Optimizer addresses critical SSD performance issues faced by developers us
 
 ![High disk usage in Task Manager](assets/screenshots/taskmanager.png)
 
-When several modern IDEs and AI-powered editors run at the same time, they can quickly push your primary drive to very high active time, as shown in the Task Manager graph above. This often leads to slow project opens, occasional freezes, and a generally sluggish system—especially during long sessions—making it harder to stay focused and productive.
+After working in your IDE for a few hours, your PC can gradually start to feel laggy or even momentarily stuck. When you open Task Manager to investigate, you often see your primary drive sitting at very high active time, as in the graph above, which explains the slow responses, delayed clicks, and general system slowdown.
 
 ## Key Benefits
 
