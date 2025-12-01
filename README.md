@@ -6,7 +6,13 @@ A professional desktop application built with Flutter that optimizes your develo
 
 ## Overview
 
-NXIVE Optimizer addresses critical SSD performance issues faced by developers using multiple AI-powered IDEs. By moving cache folders to a secondary drive using Windows junction points, the application ensures your IDEs continue working normally while significantly reducing the load on your primary SSD.
+NXIVE Optimizer addresses critical SSD performance issues faced by developers using multiple AI-powered IDEs. It intelligently manages heavy development data so your tools continue working normally while significantly reducing the load on your primary SSD.
+
+## Issues You May Face
+
+![High disk usage in Task Manager](assets/screenshots/taskmanager.png)
+
+When several modern IDEs and AI-powered editors run at the same time, they can quickly push your primary drive to very high active time, as shown in the Task Manager graph above. This often leads to slow project opens, occasional freezes, and a generally sluggish system—especially during long sessions—making it harder to stay focused and productive.
 
 ## Key Benefits
 
